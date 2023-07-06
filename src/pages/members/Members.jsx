@@ -1,14 +1,16 @@
-import "./List.scss";
+import '../list/List.scss'
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Navbar from "../../components/navbar/Navbar.jsx";
-import Datatable from "../../components/datatable/Datatable.jsx";
-import { useEffect, useState } from "react";
+import MembersTable from "../../components/datatable/MembersTable.jsx";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
-const List = () => {
+import { useState, useEffect } from "react";
+const Members = () => {
+  const params = useParams();
+  const { token } = useAuth();
   const [userRows, setUserRows] = useState([]);
-  const { userId, token, isAuth } = useAuth();
   useEffect(()=>{
-    fetch("http://localhost:8080/home/societies",{
+    fetch(`http://localhost:8080/societies/${params.societyId}`,{
       headers:{
         Authorization: 'Bearer ' + token
       }
@@ -20,8 +22,8 @@ const List = () => {
       return result.json();
     })
     .then((res)=>{
-      console.log("soceity-->"+res);
-      const usersArray = res.societies.map((user)=>{
+      console.log(res);
+      const usersArray = res.members.map((user)=>{
         const temp = user;
         temp.id = temp._id;
         return temp;
@@ -38,10 +40,10 @@ const List = () => {
       <Sidebar />
       <div className="listContainer">
         <Navbar />
-        <Datatable userRows={userRows} setUserRows={setUserRows}/>
+        <MembersTable userRows={userRows} setUserRows={setUserRows} />
       </div>
     </div>
   );
 };
 
-export default List;
+export default Members;

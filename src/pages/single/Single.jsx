@@ -2,56 +2,68 @@ import "./Single.scss";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Navbar from "../../components/navbar/Navbar.jsx";
 import Chart from "../../components/chart/Chart.jsx";
-import List from '../../components/table/Table.jsx';
-
+import List from "../../components/table/Table.jsx";
+import { useParams } from "react-router-dom";
+import { useEffect, useState } from "react";
+import SingleEditForm from "./SingleEditForm.jsx";
+import { useAuth } from "../../context/authContext.js";
 const Single = () => {
+  const params = useParams();
+  const { token } = useAuth();
+  const [data, setData] = useState();
+  const [fetched, setFetched] = useState(false);
+  useEffect(() => {
+    fetch(`http://localhost:8080/members/${params.memId}`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((result) => {
+        return result.json();
+      })
+      .then((data) => {
+        console.log("data==>", data.member);
+        setData(data.member);
+        setFetched(true);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
+
+  const handleSubmit = (data) => {
+    const formData = new FormData();
+    Object.keys(data).forEach((key) => formData.append(key, data[key]));
+    fetch(`http://localhost:8080/members/${params.memId}`, {
+      method: "PUT",
+      body: formData,
+      headers:{
+        Authorization: 'Bearer ' + token
+      }
+    })
+      .then((result) => {
+        console.log("success!");
+        console.log(result);
+      })
+      .catch((err) => {
+        console.log("failed to fetch!");
+        console.log(err);
+      });
+  };
+
   return (
-    <div className="single">
+    <div className="parent">
+      <div className="single">
       <Sidebar />
       <div className="singleContainer">
         <Navbar />
         <div className="top">
           <div className="left">
-            <div className="editButton">Edit</div>
-            <h1 className="title">Information</h1>
-            <div className="item">
-              <img
-                src="https://images.pexels.com/photos/733872/pexels-photo-733872.jpeg?auto=compress&cs=tinysrgb&dpr=3&h=750&w=1260"
-                alt=""
-                className="itemImg"
-              />
-              <div className="details">
-                <h1 className="itemTitle">Jane Doe</h1>
-                <div className="detailItem">
-                  <span className="itemKey">Email:</span>
-                  <span className="itemValue">janedoe@gmail.com</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Phone:</span>
-                  <span className="itemValue">+1 2345 67 89</span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Address:</span>
-                  <span className="itemValue">
-                    Elton St. 234 Garden Yd. NewYork
-                  </span>
-                </div>
-                <div className="detailItem">
-                  <span className="itemKey">Country:</span>
-                  <span className="itemValue">USA</span>
-                </div>
-              </div>
-            </div>
+            {fetched && <SingleEditForm data={data} handleSubmit={handleSubmit} />}
           </div>
-          <div className="right">
-            <Chart aspect={3 / 1} title="User Spending"/>
-          </div>
-        </div>
-        <div className="bottom">
-        <h1 className="title">last Transactions</h1>
-            <List/>
         </div>
       </div>
+    </div>
     </div>
   );
 };

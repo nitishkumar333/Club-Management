@@ -1,12 +1,14 @@
 import "./datatable.scss";
 import { DataGrid } from "@mui/x-data-grid";
-import { userColumns } from "../../datatablesource.js";
-import { Link } from "react-router-dom";
+import { membersColumns } from "../../datatablesource.js";
+import { Link, useParams } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
-const Datatable = ({ userRows, setUserRows }) => {
+const MembersTable = ({ userRows, setUserRows }) => {
+  const params = useParams();
   const { token } = useAuth();
-  const handleDelete = (id) => {
-    fetch(`http://localhost:8080/home/society/${id}`, {
+  const handleDelete = (memId) => {
+    console.log("memId---->" + memId);
+    fetch(`http://localhost:8080/societies/${params.societyId}/${memId}`, {
       method: "DELETE",
       headers: {
         Authorization: "Bearer " + token,
@@ -20,7 +22,7 @@ const Datatable = ({ userRows, setUserRows }) => {
       })
       .then((resData) => {
         console.log(resData);
-        setUserRows(userRows.filter((item) => item.id !== id));
+        setUserRows(userRows.filter((item) => item.id !== memId));
       })
       .catch((err) => {
         console.log(err);
@@ -28,24 +30,13 @@ const Datatable = ({ userRows, setUserRows }) => {
   };
   const actionColumn = [
     {
-      field: "members",
-      headerName: "Members",
-      width: 150,
-      renderCell: (params) => {
-        return <div className="cellAction">{params.row.members.length}</div>;
-      },
-    },
-    {
       field: "action",
       headerName: "Action",
       width: 200,
       renderCell: (params) => {
         return (
           <div className="cellAction">
-            <Link
-              to={`/societies/${params.id}`}
-              style={{ textDecoration: "none" }}
-            >
+            <Link to={`${params.id}`} style={{ textDecoration: "none" }}>
               <div className="viewButton">View</div>
             </Link>
             <div
@@ -64,25 +55,14 @@ const Datatable = ({ userRows, setUserRows }) => {
     <div className="datatable">
       <div className="datatableTitle">
         Add New User
-        <Link
-          to="/societies/new"
-          style={{ textDecoration: "none" }}
-          className="link"
-        >
+        <Link to="new" style={{ textDecoration: "none" }} className="link">
           Add New
         </Link>
       </div>
       <DataGrid
-        sx={{
-          "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
-            outline: "none !important",
-          },
-          "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within": {
-            outline: "none",
-          },
-        }}
+        className="datagrid"
         rows={userRows}
-        columns={userColumns.concat(actionColumn)}
+        columns={membersColumns.concat(actionColumn)}
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 9 },
@@ -95,4 +75,4 @@ const Datatable = ({ userRows, setUserRows }) => {
   );
 };
 
-export default Datatable;
+export default MembersTable;

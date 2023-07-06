@@ -1,44 +1,53 @@
 export const userInputs = [
     {
       id: 1,
-      label: "Username",
+      label: "Society",
       type: "text",
-      placeholder: "john_doe",
+      placeholder: "Yantrikom",
     },
     {
       id: 2,
-      label: "Name and surname",
+      label: "Department",
       type: "text",
-      placeholder: "John Doe",
+      placeholder: "CSE AIML",
     },
     {
       id: 3,
+      label: "Tagline",
+      type: "text",
+      placeholder: "Write a brief about the club",
+    }
+  ];
+export const memberInputs = [
+    {
+      id: 1,
+      label: "Name",
+      type: "text",
+      placeholder: "Mahesh Dalle",
+    },
+    {
+      id: 2,
       label: "Email",
-      type: "mail",
-      placeholder: "john_doe@gmail.com",
+      type: "text",
+      placeholder: "emailid@gmail.com",
+    },
+    {
+      id: 3,
+      label: "Contact", 
+      type: "text",
+      placeholder: "8800342178",
     },
     {
       id: 4,
-      label: "Phone",
+      label: "Department",
       type: "text",
-      placeholder: "+1 234 567 89",
+      placeholder: "CSE CORE",
     },
     {
       id: 5,
-      label: "Password",
-      type: "password",
-    },
-    {
-      id: 6,
-      label: "Address",
+      label: "Position",
       type: "text",
-      placeholder: "Elton St. 216 NewYork",
-    },
-    {
-      id: 7,
-      label: "Country",
-      type: "text",
-      placeholder: "USA",
+      placeholder: "Technical Head",
     },
   ];
   

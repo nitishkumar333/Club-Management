@@ -3,8 +3,10 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
+import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 const New = ({ inputs, title }) => {
+  const params = useParams();
   const [data, setFormData] = useState({});
   const { token } = useAuth();
   const submitHandler = (e) => {
@@ -12,12 +14,13 @@ const New = ({ inputs, title }) => {
     console.log(data);
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
-    fetch("http://localhost:8080/home/society", {
+    formData.append("societyId", params.societyId);
+    fetch("http://localhost:8080/member", {
       method: "POST",
       body: formData,
-      headers:{
-        Authorization: 'Bearer ' + token
-      }
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     })
       .then((result) => {
         console.log("success!");
