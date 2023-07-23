@@ -1,10 +1,11 @@
 import Home from "./pages/home/Home.jsx";
 import Login from "./pages/login/Login.jsx";
 import Single from "./pages/single/Single.jsx";
-import Members from "./pages/members/Members.jsx";
+import Society from "./pages/society/Society.jsx";
 import List from "./pages/list/List.jsx";
 import New from "./pages/new/New.jsx";
 import NewMember from "./pages/new/NewMember.jsx";
+import NewEvent from "./components/newEvent/NewEvent.jsx";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { productInputs, userInputs, memberInputs } from "./formSource.js";
 import "./style/dark.scss";
@@ -30,7 +31,13 @@ function App() {
                     <NewMember inputs={memberInputs} title="Add New Member" />
                   }
                 />
-                <Route index element={<Members />} />
+                <Route
+                  path="newEvent"
+                  element={
+                    <NewEvent inputs={memberInputs} title="Add New Event" />
+                  }
+                />
+                <Route index element={<Society />} />
                 <Route
                   path=":memId"
                   element={

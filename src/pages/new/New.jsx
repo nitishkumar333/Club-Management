@@ -4,9 +4,11 @@ import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import { useAuth } from "../../context/authContext.js";
+import { useNavigate } from "react-router-dom";
 const New = ({ inputs, title }) => {
-  const [data, setFormData] = useState({});
+  const [data, setFormData] = useState({department:'CSE CORE'});
   const { token } = useAuth();
+  const navigate = useNavigate();
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(data);
@@ -15,16 +17,17 @@ const New = ({ inputs, title }) => {
     fetch("http://localhost:8080/home/society", {
       method: "POST",
       body: formData,
-      headers:{
-        Authorization: 'Bearer ' + token
-      }
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     })
       .then((result) => {
-        console.log("success!");
+        if(result.status === 500) throw new Error("Failed to fetch!");
         console.log(result);
+        return navigate('/societies');
       })
       .catch((err) => {
-        console.log("failed to fetch!");
+        console.log("Failed to fetch!");
         console.log(err);
       });
   };
@@ -54,6 +57,7 @@ const New = ({ inputs, title }) => {
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
+                  accept="image/*"
                   name="file"
                   type="file"
                   id="file"
@@ -66,21 +70,41 @@ const New = ({ inputs, title }) => {
 
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
-                  <label>{input.label}</label>
-                  <input
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={(e) => {
-                      setFormData({
-                        ...data,
-                        [input.label.trim().toLowerCase()]: e.target.value,
-                      });
-                    }}
-                  />
-                  {/* <input type={input.type} placeholder={input.placeholder} /> */}
+                  <label htmlFor={`${input.label.trim().toLowerCase()}`}>{input.label}</label>
+                  {input.label === "Department" ? (
+                    <select
+                      name="department"
+                      id="department"
+                      onChange={(e) => {
+                        setFormData({
+                          ...data,
+                          [input.label.trim().toLowerCase()]: e.target.value,
+                        });
+                      }}
+                    >
+                      <option value="CSE CORE">CSE CORE</option>
+                      <option value="CSE AIML">CSE AIML</option>
+                      <option value="CSE IOT">CSE IOT</option>
+                      <option value="CSE DS">CSE DS</option>
+                      <option value="ME">ME</option>
+                      <option value="ECE">ECE</option>
+                      <option value="B.Farma">B.Farma</option>
+                    </select>
+                  ) : (
+                    <input
+                      type={input.type}
+                      placeholder={input.placeholder}
+                      onChange={(e) => {
+                        setFormData({
+                          ...data,
+                          [input.label.trim().toLowerCase()]: e.target.value,
+                        });
+                      }}
+                    />
+                  )}
                 </div>
               ))}
-              <button type="submit">Send</button>
+              <button type="submit">Add Club</button>
             </form>
           </div>
         </div>

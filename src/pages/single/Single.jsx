@@ -37,9 +37,9 @@ const Single = () => {
     fetch(`http://localhost:8080/members/${params.memId}`, {
       method: "PUT",
       body: formData,
-      headers:{
-        Authorization: 'Bearer ' + token
-      }
+      headers: {
+        Authorization: "Bearer " + token,
+      },
     })
       .then((result) => {
         console.log("success!");
@@ -52,18 +52,18 @@ const Single = () => {
   };
 
   return (
-    <div className="parent">
-      <div className="single">
+    <div className="single">
       <Sidebar />
       <div className="singleContainer">
         <Navbar />
         <div className="top">
           <div className="left">
-            {fetched && <SingleEditForm data={data} handleSubmit={handleSubmit} />}
+            {fetched && (
+              <SingleEditForm data={data} handleSubmit={handleSubmit} />
+            )}
           </div>
         </div>
       </div>
-    </div>
     </div>
   );
 };

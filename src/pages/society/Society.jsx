@@ -5,6 +5,8 @@ import MembersTable from "../../components/datatable/MembersTable.jsx";
 import { useParams } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 import { useState, useEffect } from "react";
+import UpcomingEvents from '../../components/events/UpcomingEvents.jsx';
+import PastEvents from '../../components/events/PastEvents.jsx';
 const Members = () => {
   const params = useParams();
   const { token } = useAuth();
@@ -21,14 +23,13 @@ const Members = () => {
       }
       return result.json();
     })
-    .then((res)=>{
-      console.log(res);
-      const usersArray = res.members.map((user)=>{
+    .then((result)=>{
+      if(result.status === 500 || result.status === 402) throw new Error("Failed to fetch!");
+      const usersArray = result.members.map((user)=>{
         const temp = user;
         temp.id = temp._id;
         return temp;
       })
-      console.log(usersArray);
       setUserRows(usersArray);
     })
     .catch((err) => {
@@ -41,6 +42,8 @@ const Members = () => {
       <div className="listContainer">
         <Navbar />
         <MembersTable userRows={userRows} setUserRows={setUserRows} />
+        <UpcomingEvents/>
+        <PastEvents/>
       </div>
     </div>
   );

@@ -63,7 +63,7 @@ const Datatable = ({ userRows, setUserRows }) => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Add New User
+        Societies
         <Link
           to="/societies/new"
           style={{ textDecoration: "none" }}
@@ -83,12 +83,7 @@ const Datatable = ({ userRows, setUserRows }) => {
         }}
         rows={userRows}
         columns={userColumns.concat(actionColumn)}
-        initialState={{
-          pagination: {
-            paginationModel: { page: 0, pageSize: 9 },
-          },
-        }}
-        pageSizeOptions={[9]}
+        pageSizeOptions={[8]}
         checkboxSelection
       />
     </div>

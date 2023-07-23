@@ -3,11 +3,15 @@ import Sidebar from "../../components/sidebar/Sidebar";
 import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 const New = ({ inputs, title }) => {
   const params = useParams();
-  const [data, setFormData] = useState({});
+  const navigate = useNavigate();
+  const [data, setFormData] = useState({
+    department: "CSE CORE",
+    position: "Faculty",
+  });
   const { token } = useAuth();
   const submitHandler = (e) => {
     e.preventDefault();
@@ -23,8 +27,9 @@ const New = ({ inputs, title }) => {
       },
     })
       .then((result) => {
+        if(result.status === 500) throw new Error("Failed to fetch!");
         console.log("success!");
-        console.log(result);
+        return navigate(-1);
       })
       .catch((err) => {
         console.log("failed to fetch!");
@@ -57,6 +62,7 @@ const New = ({ inputs, title }) => {
                   Image: <DriveFolderUploadOutlinedIcon className="icon" />
                 </label>
                 <input
+                  accept="image/*"
                   name="file"
                   type="file"
                   id="file"
@@ -70,17 +76,53 @@ const New = ({ inputs, title }) => {
               {inputs.map((input) => (
                 <div className="formInput" key={input.id}>
                   <label>{input.label}</label>
-                  <input
-                    type={input.type}
-                    placeholder={input.placeholder}
-                    onChange={(e) => {
-                      setFormData({
-                        ...data,
-                        [input.label.trim().toLowerCase()]: e.target.value,
-                      });
-                    }}
-                  />
-                  {/* <input type={input.type} placeholder={input.placeholder} /> */}
+                  {input.label === "Department" ||
+                  input.label === "Position" ? (
+                    <select
+                      name={input.label.toLowerCase().trim()}
+                      id={input.label.toLowerCase().trim()}
+                      onChange={(e) => {
+                        setFormData({
+                          ...data,
+                          [input.label.trim().toLowerCase()]: e.target.value,
+                        });
+                      }}
+                    >
+                      {input.label === "Department" ? (
+                        <>
+                          <option value="CSE CORE">CSE CORE</option>
+                          <option value="CSE AIML">CSE AIML</option>
+                          <option value="CSE IOT">CSE IOT</option>
+                          <option value="CSE DS">CSE DS</option>
+                          <option value="ME">ME</option>
+                          <option value="ECE">ECE</option>
+                          <option value="B.Farma">B.Farma</option>
+                        </>
+                      ) : (
+                        <>
+                          <option value="Faculty">Faculty</option>
+                          <option value="President">President</option>
+                          <option value="Vice President">Vice President</option>
+                          <option value="Technical Head">Technical Head</option>
+                          <option value="Technical Member">
+                            Technical Member
+                          </option>
+                          <option value="Core Member">Core Member</option>
+                        </>
+                      )}
+                    </select>
+                  ) : (
+                    <input
+                      type={input.type}
+                      placeholder={input.placeholder}
+                      onChange={(e) => {
+                        setFormData({
+                          ...data,
+                          [input.label.trim().toLowerCase()]: e.target.value,
+                        });
+                      }}
+                    />
+                  )}
                 </div>
               ))}
               <button type="submit">Send</button>
