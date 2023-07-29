@@ -30,9 +30,17 @@ const Datatable = ({ userRows, setUserRows }) => {
     {
       field: "members",
       headerName: "Members",
-      width: 150,
+      width: 130,
       renderCell: (params) => {
         return <div className="cellAction">{params.row.members.length}</div>;
+      },
+    },
+    {
+      field: "events",
+      headerName: "Events",
+      width: 130,
+      renderCell: (params) => {
+        return <div className="cellAction">{params.row.events.length}</div>;
       },
     },
     {

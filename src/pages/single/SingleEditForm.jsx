@@ -85,8 +85,8 @@ const SingleEditForm = ({ data, setViewIsActive, submitHandler }) => {
               onChange={handleChange}
             />
           </div>
-          <div className="form-group-imageHandler">
-            <div className="form-group">
+          <div className="form-group-selectHandler">
+            <div className="form-group"  style={{"marginRight" : "10px"}}>
               <label htmlFor="department">Department:</label>
               <select
                 name="department"
@@ -103,7 +103,7 @@ const SingleEditForm = ({ data, setViewIsActive, submitHandler }) => {
                 <option value="B.Farma">B.Farma</option>
               </select>
             </div>
-            <div className="form-group">
+            <div className="form-group"  style={{"marginLeft" : "10px"}}>
               <label htmlFor="position">Position:</label>
               <select
                 name="position"

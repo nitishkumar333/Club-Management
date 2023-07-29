@@ -27,7 +27,7 @@ const New = ({ inputs, title }) => {
       },
     })
       .then((result) => {
-        if(result.status === 500) throw new Error("Failed to fetch!");
+        if(result.status !== 201) throw new Error("Failed to fetch!");
         console.log("success!");
         return navigate(-1);
       })

@@ -19,7 +19,6 @@ const NewEvent = ({ title }) => {
   const submitHandler = (e) => {
     e.preventDefault();
     console.log(data);
-    console.log(winners);
 
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
@@ -36,7 +35,7 @@ const NewEvent = ({ title }) => {
       },
     })
       .then((result) => {
-        if (result.status === 500) throw new Error("Failed to fetch!");
+        if (result.status === 422) throw new Error("Failed to fetch!");
         console.log("success!");
         return navigate(-1);
       })
@@ -143,21 +142,20 @@ const NewEvent = ({ title }) => {
                   onChange={handleChange}
                 />
               </div>
-              {/* <div className="formInput">
-                <label htmlFor="reportFile">
-                  Report Upload: <DriveFolderUploadOutlinedIcon className="icon" />
-                </label>
-                <input
-                  accept="application/pdf"
-                  name="reportFile"
-                  type="reportFile"
-                  id="reportFile"
-                  onChange={(e) =>
-                    setFormData({ ...data, file: e.target.files[0] })
-                  }
-                  style={{ display: "none" }}
-                />
-              </div> */}
+              {!isUpcoming && (
+                <div className="formInput">
+                  <label>Report Upload:</label>
+                  <input
+                    accept="application/pdf"
+                    name="report"
+                    type="file"
+                    id="report"
+                    onChange={(e) =>
+                      setFormData({ ...data, report: e.target.files[0] })
+                    }
+                  />
+                </div>
+              )}
               {!isUpcoming && (
                 <div className="formInput">
                   <label htmlFor="winners">Winners:</label>

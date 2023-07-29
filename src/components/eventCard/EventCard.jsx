@@ -4,9 +4,7 @@ import "./eventCard.scss";
 import { useAuth } from "../../context/authContext.js";
 import { useNavigate } from "react-router-dom";
 function EventCard(eventData) {
-  const { eventId, societyId, eventname, date, imageUrl, title, setEventData, setViewIsActive } = eventData;
-  console.log("eventData",eventData.eventname);
-  console.log("title",title);
+  const { eventId, societyId, eventname, date, imageUrl, setEventData, setViewIsActive } = eventData;
   const url = `http://localhost:8080/${imageUrl}`;
   const { token } = useAuth();
   const navigate = useNavigate();

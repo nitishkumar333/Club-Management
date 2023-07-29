@@ -33,10 +33,14 @@ const UpcomingEvents = () => {
       });
   }, []);
 
-  const submitHandler = (data) => {
+  const submitHandler = (data, winners) => {
+    console.log("submit data --> ", data);
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
-    fetch(`http://localhost:8080/events/${eventData.id}`, {
+    formData.append("winners[first]", winners.first);
+    formData.append("winners[second]", winners.second);
+    formData.append("winners[third]", winners.third);
+    fetch(`http://localhost:8080/events/${eventData.eventId}`, {
       method: "PUT",
       body: formData,
       headers: {
@@ -64,28 +68,32 @@ const UpcomingEvents = () => {
           Add New Event
         </Link>
       </div>
-      <div className="listContainer">
-        <div className="experience" id="experience">
-          <div className="experience-body">
-            {eventsData.map((event, index) => (
-              <EventCard
-                key={event._id}
-                eventId={event._id}
-                societyId={params.societyId}
-                eventname={event.eventname}
-                description={event.description}
-                department={event.department}
-                date={event.date}
-                winners={event.winners}
-                imageUrl={event.imageUrl}
-                type={event.type}
-                setViewIsActive={setViewIsActive}
-                setEventData={setEventData}
-              />
-            ))}
+      {eventsData.length > 0 ? (
+        <div className="listContainer">
+          <div className="experience" id="experience">
+            <div className="experience-body">
+              {eventsData.map((event, index) => (
+                <EventCard
+                  key={event._id}
+                  eventId={event._id}
+                  societyId={params.societyId}
+                  eventname={event.eventname}
+                  description={event.description}
+                  department={event.department}
+                  date={event.date}
+                  winners={event.winners}
+                  imageUrl={event.imageUrl}
+                  type={event.type}
+                  setViewIsActive={setViewIsActive}
+                  setEventData={setEventData}
+                />
+              ))}
+            </div>
           </div>
         </div>
-      </div>
+      ) : (
+        <p style={{"textAlign":"center"}}>No Upcoming Events Found.</p>
+      )}
       {viewIsActive && (
         <EventViewCard
           data={eventData}

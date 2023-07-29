@@ -4,13 +4,30 @@ import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import { useEffect } from "react";
+import { useState } from "react";
+import { useAuth } from "../../context/authContext.js";
 
 const Widget = ({ type }) => {
   let data;
-
+  const { token } = useAuth();
   //temporay
-  const amount = 100;
+  const [count, setCount] = useState(0);
   const diff = 20;
+
+  useEffect(() => {
+    fetch(`http://localhost:8080/${type}/count`, {
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        setCount(res);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   switch (type) {
     case "user":
@@ -29,7 +46,7 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "order":
+    case "societies":
       data = {
         title: "SOCIETIES",
         isMoney: false,
@@ -45,7 +62,7 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "earning":
+    case "members":
       data = {
         title: "MEMBERS",
         isMoney: true,
@@ -58,7 +75,7 @@ const Widget = ({ type }) => {
         ),
       };
       break;
-    case "balance":
+    case "events":
       data = {
         title: "EVENTS",
         isMoney: true,
@@ -84,7 +101,7 @@ const Widget = ({ type }) => {
         <span className="title">{data.title}</span>
         <span className="counter">
           {data.isMoney && "&"}
-          {amount}
+          {count? "0":count}
         </span>
         <span className="link">{data.link}</span>
       </div>

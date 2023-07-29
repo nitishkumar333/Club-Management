@@ -79,6 +79,15 @@
     }
   }
 
+  .top .form-group-selectHandler{
+    width: 100%;
+    display: flex;
+    select {
+      width: 100%;
+      padding: 0.5rem;
+    }
+  }
+
   button {
     width: 100%;
     padding: 0.5rem 1rem;

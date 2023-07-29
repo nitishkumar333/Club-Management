@@ -4,19 +4,33 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 
 const EventViewCard = ({ data, setViewIsActive, submitHandler }) => {
   console.log("event daat--->" + data);
-  const url = `http://localhost:8080/${data.imageUrl}`;
+  const reportUrl = `http://localhost:8080/${data.reportUrl}`;
   const [eventData, setEventData] = useState({
     file: data.imageUrl,
-    name: data.eventname,
+    report: data.reportUrl,
+    eventname: data.eventname,
     date: data.date,
     description: data.description,
     department: data.department,
-    winners: data.winners,
     type: data.type,
   });
+  const [winners, setWinners] = useState({
+    first: data.winners[0].first,
+    second: data.winners[0].second,
+    third: data.winners[0].third,
+  });
+  const [isUpcoming, setIsUpcoming] = useState(
+    eventData.type === "COMPLETED" ? false : true
+  );
+  console.log(isUpcoming);
   const [imageChanged, setImageChanged] = useState(false);
-  console.log(eventData);
   const handleChange = (e) => {
+    if (e.target.name === "type") {
+      if (e.target.value === "COMPLETED") setIsUpcoming(false);
+      else if (e.target.value === "UPCOMING") {
+        setIsUpcoming(true);
+      }
+    }
     const { name, value } = e.target;
     setEventData((prevState) => ({
       ...prevState,
@@ -25,15 +39,15 @@ const EventViewCard = ({ data, setViewIsActive, submitHandler }) => {
   };
   const submitClick = (e) => {
     e.preventDefault();
-    submitHandler(eventData);
+    submitHandler(eventData, winners);
   };
   return (
     <div className="single">
       <div className="overlay" onClick={() => setViewIsActive(false)}></div>
-      <div className="top">
+      <div className="top" style={{"width": "max-content"}}>
         <form className="profile-form" onSubmit={submitClick}>
           <div className="formDetails">
-            <div className={data.type==='UPCOMING'?"detailsBlock-up":"detailsBlock"}>
+            <div className={isUpcoming ? "detailsBlock-up" : "detailsBlock"}>
               <div className="form-group-imageHandler">
                 <img
                   src={
@@ -60,12 +74,12 @@ const EventViewCard = ({ data, setViewIsActive, submitHandler }) => {
                 />
               </div>
               <div className="form-group">
-                <label htmlFor="name">Event Name:</label>
+                <label htmlFor="eventname">Event Name:</label>
                 <input
                   type="text"
                   id="name"
-                  name="name"
-                  value={eventData.name}
+                  name="eventname"
+                  value={eventData.eventname}
                   onChange={handleChange}
                 />
               </div>
@@ -89,31 +103,85 @@ const EventViewCard = ({ data, setViewIsActive, submitHandler }) => {
                   onChange={handleChange}
                 />
               </div>
+              {isUpcoming && (
+                <div className="formInput">
+                  <label htmlFor="type">Type:</label>
+                  <select
+                    name="type"
+                    id="type"
+                    onChange={handleChange}
+                    value={eventData.type}
+                  >
+                    <option value="UPCOMING">UPCOMING</option>
+                    <option value="COMPLETED">COMPLETED</option>
+                  </select>
+                </div>
+              )}
             </div>
-            {data.type === "COMPLETED" && (
+            {!isUpcoming && (
               <div className="winnersBlock">
                 <div className="form-group">
                   <label htmlFor="first">First Position:</label>
                   <input
                     type="text"
                     name="first"
-                    value={eventData.winners[0].first}
-                    onChange={handleChange}
+                    value={winners.first}
+                    onChange={(e) =>
+                      setWinners({
+                        ...winners,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
                   <label htmlFor="second">Second Position:</label>
                   <input
                     type="text"
                     name="second"
-                    value={eventData.winners[0].second}
-                    onChange={handleChange}
+                    value={winners.second}
+                    onChange={(e) =>
+                      setWinners({
+                        ...winners,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
                   <label htmlFor="third">Third Position:</label>
                   <input
                     type="text"
                     name="third"
-                    value={eventData.winners[0].third}
-                    onChange={handleChange}
+                    value={winners.third}
+                    onChange={(e) =>
+                      setWinners({
+                        ...winners,
+                        [e.target.name]: e.target.value,
+                      })
+                    }
                   />
+                </div>
+                <div className="form-group">
+                  {data.type === "COMPLETED" ? (
+                    <a href={reportUrl} target="_blank">
+                      <button id="report" name="report" type="button">
+                        View Report
+                      </button>
+                    </a>
+                  ) : (
+                    <div className="formInput">
+                      <label>Report Upload:</label>
+                      <input
+                        accept="application/pdf"
+                        name="report"
+                        type="file"
+                        id="report"
+                        onChange={(e) => {
+                          setEventData({
+                            ...eventData,
+                            report: e.target.files[0],
+                          });
+                        }}
+                      />
+                    </div>
+                  )}
                 </div>
               </div>
             )}
