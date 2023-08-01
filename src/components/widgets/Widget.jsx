@@ -10,24 +10,11 @@ import { useAuth } from "../../context/authContext.js";
 
 const Widget = ({ type }) => {
   let data;
+  let url;
   const { token } = useAuth();
-  //temporay
   const [count, setCount] = useState(0);
+  console.log(count);
   const diff = 20;
-
-  useEffect(() => {
-    fetch(`http://localhost:8080/${type}/count`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        setCount(res);
-      })
-      .catch((err) => {
-        console.log(err);
-      });
-  }, []);
 
   switch (type) {
     case "user":
@@ -45,6 +32,7 @@ const Widget = ({ type }) => {
           />
         ),
       };
+      url = "http://localhost:8080/auth/all/users/count";
       break;
     case "societies":
       data = {
@@ -61,6 +49,7 @@ const Widget = ({ type }) => {
           />
         ),
       };
+      url = "http://localhost:8080/home/all/societies/count";
       break;
     case "members":
       data = {
@@ -74,6 +63,7 @@ const Widget = ({ type }) => {
           />
         ),
       };
+      url = "http://localhost:8080/all/members/count";
       break;
     case "events":
       data = {
@@ -90,10 +80,29 @@ const Widget = ({ type }) => {
           />
         ),
       };
+      url = "http://localhost:8080/all/events/count";
       break;
     default:
       break;
   }
+
+  useEffect(() => {
+    fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + token,
+      },
+    })
+      .then((res) => {
+        return res.json();
+      })
+      .then((count) => {
+        setCount(count);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
   return (
     <div className="widget">
@@ -101,7 +110,7 @@ const Widget = ({ type }) => {
         <span className="title">{data.title}</span>
         <span className="counter">
           {data.isMoney && "&"}
-          {count? "0":count}
+          {count}
         </span>
         <span className="link">{data.link}</span>
       </div>
