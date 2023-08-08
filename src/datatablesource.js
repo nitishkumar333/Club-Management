@@ -2,7 +2,8 @@ export const userColumns = [
   {
     field: "society",
     headerName: "Society",
-    width: 230,
+    // width: 230,
+    flex: 1,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -19,14 +20,16 @@ export const userColumns = [
   {
     field: "department",
     headerName: "Department",
-    width: 150,
+    // width: 150,
+    flex: 1,
   }
 ];
 export const membersColumns = [
   {
     field: "member",
     headerName: "Member",
-    width: 200,
+    // width: 200,
+    flex: 1,
     renderCell: (params) => {
       return (
         <div className="cellWithImg">
@@ -43,21 +46,25 @@ export const membersColumns = [
   {
     field: "email",
     headerName: "Email",
-    width: 200,
+    // width: 200,
+    flex: 1,
   },
   {
     field: "phoneno",
     headerName: "Phone No.",
-    width: 150,
+    // width: 150,
+    flex: 1,
   },
   {
     field: "department",
     headerName: "Department",
-    width: 150,
+    // width: 150,
+    flex: 1,
   },
   {
     field: "position",
     headerName: "Position",
-    width: 150,
+    // width: 150,
+    flex: 1,
   },
 ];

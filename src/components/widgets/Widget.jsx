@@ -13,7 +13,6 @@ const Widget = ({ type }) => {
   let url;
   const { token } = useAuth();
   const [count, setCount] = useState(0);
-  console.log(count);
   const diff = 20;
 
   switch (type) {

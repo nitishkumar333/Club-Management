@@ -5,6 +5,7 @@ import Widget from "../../components/widgets/Widget.jsx";
 import Featured from "../../components/featured/Featured.jsx";
 import Chart from "../../components/chart/Chart.jsx";
 import Table from "../../components/table/Table.jsx";
+import Bargraph from "../../components/chart/Bargraph.jsx";
 const Home = () => {
   return (
     <div className="home">
@@ -18,7 +19,8 @@ const Home = () => {
           <Widget type="user"/>
         </div>
         <div className="charts">
-          <Featured/>
+          {/* <Featured/> */}
+          <Bargraph title='Members In Society' aspect={2/1}/>
           <Chart title='Last 6 months (Events)' aspect={2/1}/>
         </div>
         <div className="listContainer">

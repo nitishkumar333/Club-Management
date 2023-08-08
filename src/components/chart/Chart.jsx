@@ -8,62 +8,56 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from "recharts";
+import { useEffect, useState } from "react";
 
-// const data = [
-//   {
-//     name: "Page A",
-//     uv: 4000,
-//     pv: 2400,
-//     amt: 2400,
-//   },
-//   {
-//     name: "Page B",
-//     uv: 3000,
-//     pv: 1398,
-//     amt: 2210,
-//   },
-//   {
-//     name: "Page C",
-//     uv: 2000,
-//     pv: 9800,
-//     amt: 2290,
-//   },
-//   {
-//     name: "Page D",
-//     uv: 2780,
-//     pv: 3908,
-//     amt: 2000,
-//   },
-//   {
-//     name: "Page E",
-//     uv: 1890,
-//     pv: 4800,
-//     amt: 2181,
-//   },
-//   {
-//     name: "Page F",
-//     uv: 2390,
-//     pv: 3800,
-//     amt: 2500,
-//   },
-//   {
-//     name: "Page G",
-//     uv: 3490,
-//     pv: 4300,
-//     amt: 2100,
-//   },
-// ];
 
-const data = [
-  { name: "January", Total: 1200 },
-  { name: "February", Total: 2100 },
-  { name: "March", Total: 800 },
-  { name: "April", Total: 1600 },
-  { name: "May", Total: 900 },
-  { name: "June", Total: 1700 },
-];
+const Chart = ({ aspect, title }) => {
+  let monthData = new Map([
+    ["01", 0],
+    ["02", 0],
+    ["03", 0],
+    ["04", 0],
+    ["05", 0],
+    ["06", 0],
+    ["07", 0],
+    ["08", 0],
+    ["09", 0],
+    ["10", 0],
+    ["11", 0],
+    ["12", 0],
+  ]);
+  const [areaData, setAreaData] = useState();
+  useEffect(() => {
+    fetch("http://localhost:8080/home/all/areagraph")
+      .then((res) => {
+        if (res.status !== 201) {
+          throw new Error("Something went wrong!!");
+        }
+        return res.json();
+      })
+      .then((res) => {
+        res.map((event) => {
+          monthData.set(
+            event.date.split("-")[1],
+            monthData.get(event.date.split("-")[1]) + 1
+          );
+          return monthData;
+        });
+        let temp = [];
+        monthData.forEach((value, key) => {
+          temp.push({
+            month: key,
+            num: value,
+          });
+        });
+        console.log(temp);
+        setAreaData(temp);
+      })
+      .catch((err) => {
+        console.log(err);
+      });
+  }, []);
 
-const Chart = ({aspect, title}) => {
   return (
     <div className="chart">
       <div className="title">{title}</div>
@@ -71,7 +65,7 @@ const Chart = ({aspect, title}) => {
         <AreaChart
           width={730}
           height={250}
-          data={data}
+          data={areaData}
           margin={{ top: 10, right: 30, left: 0, bottom: 0 }}
         >
           <defs>
@@ -80,13 +74,13 @@ const Chart = ({aspect, title}) => {
               <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
             </linearGradient>
           </defs>
-          <XAxis dataKey="name" stroke="gray"/>
-          {/* <YAxis /> */}
-          <CartesianGrid strokeDasharray="3 3" className="chartGrid"/>
+          <XAxis dataKey="month" stroke="gray" />
+          <YAxis />
+          <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
           <Tooltip />
           <Area
             type="monotone"
-            dataKey="Total"
+            dataKey="num"
             stroke="#8884d8"
             fillOpacity={1}
             fill="url(#total)"
