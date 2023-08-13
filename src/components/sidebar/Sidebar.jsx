@@ -47,10 +47,12 @@ const Sidebar = () => {
               <span>Upcoming Events</span>
             </li>
           </Link>
-          <li>
-            <CreditCardIcon className="icon" />
-            <span>Past Events</span>
-          </li>
+          <Link to="/pastEvents" style={{ textDecoration: "none" }}>
+            <li>
+              <StoreIcon className="icon" />
+              <span>Past Events</span>
+            </li>
+          </Link>
           <li>
             <LocalShippingIcon className="icon" />
             <span>Delivery</span>

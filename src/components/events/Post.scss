@@ -5,8 +5,14 @@
   border: 1px solid #ccc;
   margin: 10px;
   padding: 10px;
-  box-shadow: rgba(0, 0, 0, 0.24) 0px 1px 3px;
   border-radius: 12px;
+  position: relative;
+  .detail{
+    text-align: end;
+    position: absolute;
+    bottom: 10px;
+    right: 15px;
+  }
 }
 
 .card-image {
@@ -39,25 +45,25 @@
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  .date{
-    text-align: end;
+  .winners{
+    display: flex;
+    gap: 10px;
+    span{
+      font-weight: bold;
+    }
+  }
+  .description {
+    width: 90%;
+    margin-top: 5px;
+    margin-left: 10px;
+    color: #666;
+    overflow: hidden;
+    max-height: 100px;
+    text-overflow: ellipsis;
   }
 }
 
 .card-content h2 {
   margin: 0;
   margin-left: 10px;
-}
-
-.description {
-  width: 90%;
-  margin-top: 5px;
-  margin-left: 10px;
-  color: #666;
-  overflow: hidden;
-  max-height: 100px;
-}
-
-.date {
-  margin-top: 5px;
 }

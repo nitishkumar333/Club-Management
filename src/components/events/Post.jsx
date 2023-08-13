@@ -1,10 +1,12 @@
+import "./Post.scss";
 const Post = ({
-  eventId,
   eventname,
   description,
   date,
   department,
   imageUrl,
+  winners,
+  type,
 }) => {
   const image = "http://localhost:8080/" + imageUrl;
   return (
@@ -17,10 +19,17 @@ const Post = ({
           <h2>{eventname}</h2>
           <p className="description">{description}</p>
         </div>
-        <div>
-          <p className="date">{department}</p>
-          <p className="date">{date}</p>
-        </div>
+        {type === "COMPLETED" && winners && (
+          <div className="winners">
+            <span>First:</span> <p>{winners[0].first}</p>
+            <span>Second:</span> <p>{winners[0].second}</p>
+            <span>Third:</span> <p>{winners[0].third}</p>
+          </div>
+        )}
+      </div>
+      <div className="detail">
+        <p>{department}</p>
+        <p>{date}</p>
       </div>
     </div>
   );

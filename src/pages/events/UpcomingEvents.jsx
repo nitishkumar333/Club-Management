@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
-import Navbar from "../navbar/Navbar.jsx";
-import Sidebar from "../sidebar/Sidebar.jsx";
-import Post from "./Post.jsx";
-import "./Post.scss";
-const AllEventsPosts = () => {
+import Navbar from "../../components/navbar/Navbar.jsx";
+import Sidebar from "../../components/sidebar/Sidebar.jsx";
+import Post from "../../components/events/Post.jsx";
+const UpcomingEvents = () => {
   const [eventsData, setEventsData] = useState([]);
   useEffect(() => {
     fetch(`http://localhost:8080/all/upcomingEvents`)
@@ -58,4 +57,4 @@ const AllEventsPosts = () => {
   );
 };
 
-export default AllEventsPosts;
+export default UpcomingEvents;
