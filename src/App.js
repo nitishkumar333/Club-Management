@@ -11,6 +11,7 @@ import { productInputs, userInputs, memberInputs } from "./formSource.js";
 import "./style/dark.scss";
 import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext.js";
+import AllEventsPosts from "./components/events/AllEventsPosts.jsx";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -50,14 +51,7 @@ function App() {
                 element={<New inputs={userInputs} title="Add New User" />}
               />
             </Route>
-            <Route path="products">
-              <Route index element={<List />} />
-              <Route path=":productId" element={<Single />} />
-              <Route
-                path="new"
-                element={<New inputs={productInputs} title="Add New Product" />}
-              />
-            </Route>
+            <Route path="upcomingEvents" element={<AllEventsPosts />}/>
           </Route>
         </Routes>
       </BrowserRouter>
