@@ -3,6 +3,7 @@ import { DataGrid } from "@mui/x-data-grid";
 import { userColumns } from "../../datatablesource.js";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
+import { Stack } from "@mui/material";
 const Datatable = ({ userRows, setUserRows }) => {
   const { token } = useAuth();
   const handleDelete = (id) => {
@@ -30,7 +31,9 @@ const Datatable = ({ userRows, setUserRows }) => {
     {
       field: "members",
       headerName: "Members",
-      width: 130,
+      flex: 1,
+      align:'center',
+      headerAlign: 'center',
       renderCell: (params) => {
         return <div className="cellAction">{params.row.members.length}</div>;
       },
@@ -38,7 +41,9 @@ const Datatable = ({ userRows, setUserRows }) => {
     {
       field: "events",
       headerName: "Events",
-      width: 130,
+      flex: 1,
+      align:'center',
+      headerAlign: 'center',
       renderCell: (params) => {
         return <div className="cellAction">{params.row.events.length}</div>;
       },
@@ -46,7 +51,9 @@ const Datatable = ({ userRows, setUserRows }) => {
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      flex: 1,
+      align:'center',
+      headerAlign: 'center',
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -81,6 +88,18 @@ const Datatable = ({ userRows, setUserRows }) => {
         </Link>
       </div>
       <DataGrid
+      initialState={{
+        pagination: {
+          paginationModel: { page: 0, pageSize: 10 },
+        },
+      }}
+      components={{
+        NoRowsOverlay: () => (
+          <Stack height="100%" alignItems="center" justifyContent="center">
+            No Members Found !!
+          </Stack>
+        )
+      }}
         sx={{
           "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
             outline: "none !important",
@@ -89,10 +108,12 @@ const Datatable = ({ userRows, setUserRows }) => {
             outline: "none",
           },
         }}
+        autoHeight
         rows={userRows}
         columns={userColumns.concat(actionColumn)}
-        pageSizeOptions={[8]}
-        checkboxSelection
+        pageSizeOptions={[10]}
+        disableSelectionOnClick
+        isRowSelectable={() => false}
       />
     </div>
   );

@@ -11,6 +11,7 @@ const Members = () => {
   const params = useParams();
   const { token } = useAuth();
   const [userRows, setUserRows] = useState([]);
+  const [societyName, setSocietyName] = useState("");
   useEffect(()=>{
     fetch(`http://localhost:8080/societies/${params.societyId}`,{
       headers:{
@@ -30,6 +31,7 @@ const Members = () => {
         temp.id = temp._id;
         return temp;
       })
+      setSocietyName(result.societyName);
       setUserRows(usersArray);
     })
     .catch((err) => {
@@ -41,7 +43,7 @@ const Members = () => {
       <Sidebar />
       <div className="listContainer">
         <Navbar />
-        <MembersTable userRows={userRows} setUserRows={setUserRows} />
+        <MembersTable userRows={userRows} setUserRows={setUserRows} name={societyName}/>
         <UpcomingEvents/>
         <PastEvents/>
       </div>

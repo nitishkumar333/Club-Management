@@ -6,7 +6,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 import { useState } from "react";
 import SingleEditForm from "../../pages/single/SingleEditForm.jsx";
-const MembersTable = ({ userRows, setUserRows }) => {
+const MembersTable = ({ userRows, setUserRows, name }) => {
   const [viewIsActive, setViewIsActive] = useState(false);
   const [memData, setMemData] = useState();
   const params = useParams();
@@ -61,7 +61,9 @@ const MembersTable = ({ userRows, setUserRows }) => {
     {
       field: "action",
       headerName: "Action",
-      width: 200,
+      flex: 1,
+      align:'center',
+      headerAlign: 'center',
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -83,7 +85,7 @@ const MembersTable = ({ userRows, setUserRows }) => {
   return (
     <div className="datatable">
       <div className="datatableTitle">
-        Members
+        {name} Members
         <Link to="new" style={{ textDecoration: "none" }} className="link">
           Add New Member
         </Link>
@@ -92,11 +94,10 @@ const MembersTable = ({ userRows, setUserRows }) => {
       components={{
         NoRowsOverlay: () => (
           <Stack height="100%" alignItems="center" justifyContent="center">
-            No rows in DataGrid
+            No Society Found !!
           </Stack>
         )
       }}
-        className="datagrid"
         rows={userRows}
         columns={membersColumns.concat(actionColumn)}
         initialState={{
@@ -112,8 +113,10 @@ const MembersTable = ({ userRows, setUserRows }) => {
             outline: "none",
           },
         }}
+        autoHeight
+        disableSelectionOnClick
+        isRowSelectable={() => false}
         pageSizeOptions={[6]}
-        checkboxSelection
       />
       {viewIsActive && (
         <SingleEditForm
