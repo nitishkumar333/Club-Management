@@ -1,10 +1,9 @@
 import "./new.scss";
-import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
+import Sidebar from "../../components/sidebar/Sidebar.jsx";
 const New = ({ inputs, title }) => {
   const params = useParams();
   const navigate = useNavigate();
@@ -40,7 +39,6 @@ const New = ({ inputs, title }) => {
     <div className="new">
       <Sidebar />
       <div className="newContainer">
-        <Navbar />
         <div className="top">
           <h1>{title}</h1>
         </div>
@@ -114,7 +112,6 @@ const New = ({ inputs, title }) => {
                   ) : (
                     <input
                       type={input.type}
-                      placeholder={input.placeholder}
                       onChange={(e) => {
                         setFormData({
                           ...data,

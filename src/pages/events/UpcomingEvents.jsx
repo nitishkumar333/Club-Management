@@ -1,9 +1,17 @@
 import { useState, useEffect } from "react";
-import Navbar from "../../components/navbar/Navbar.jsx";
+import { useTransition, animated } from "@react-spring/web";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
-import Post from "../../components/events/Post.jsx";
+import { RotatingLines } from "react-loader-spinner";
+import EventCard from "../../components/eventCard/EventCard.jsx";
+import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
 const UpcomingEvents = () => {
   const [eventsData, setEventsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
+  const transition = useTransition(eventsData, {
+    from: { opacity: 0, scale: 0.7 },
+    enter: { opacity: 1, scale: 1 },
+    trail: 150,
+  });
   useEffect(() => {
     fetch(`http://localhost:8080/all/upcomingEvents`)
       .then((result) => {
@@ -13,8 +21,8 @@ const UpcomingEvents = () => {
         return result.json();
       })
       .then((result) => {
-        console.log(result);
         setEventsData(result.events);
+        setIsLoading(false);
         return result;
       })
       .catch((err) => {
@@ -26,15 +34,14 @@ const UpcomingEvents = () => {
     <div className="list">
       <Sidebar />
       <div className="listContainer">
-        <Navbar />
         <div className="datatable">
-          <div className="datatableTitle" style={{"marginLeft":"20px"}}>Upcoming Events</div>
-          {eventsData.length > 0 ? (
-            <div className="listContainer">
-              <div className="experience" id="experience">
-                <div>
-                  {eventsData.map((event) => (
-                    <Post
+          <div className="datatableTitle">Upcoming Events</div>
+          {eventsData.length > 0 && (
+            <div className="experience" id="experience">
+              <div className="experience-body">
+                {transition((style, event) => (
+                  <animated.div style={style}>
+                    <EventCardForPage
                       key={event._id}
                       eventId={event._id}
                       eventname={event.eventname}
@@ -42,16 +49,28 @@ const UpcomingEvents = () => {
                       department={event.department}
                       date={event.date}
                       imageUrl={event.imageUrl}
-                      type={event.type}
+                      isHomepage
                     />
-                  ))}
-                </div>
+                  </animated.div>
+                ))}
               </div>
             </div>
-          ) : (
-            <p style={{ textAlign: "center" }}>No Events Found.</p>
           )}
         </div>
+        {!isLoading && eventsData.length === 0 && (
+          <p style={{ textAlign: "center" }}>No Events Found.</p>
+        )}
+        {isLoading && (
+          <div className="loader">
+            <RotatingLines
+              strokeColor="#007bff"
+              strokeWidth="4"
+              animationDuration="1.3"
+              width="80"
+              visible={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

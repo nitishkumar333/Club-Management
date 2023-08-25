@@ -1,6 +1,5 @@
 import { useState } from "react";
 import Sidebar from "../sidebar/Sidebar.jsx";
-import Navbar from "../navbar/Navbar.jsx";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
@@ -60,7 +59,6 @@ const NewEvent = ({ title }) => {
     <div className="new">
       <Sidebar />
       <div className="newContainer">
-        <Navbar />
         <div className="top">
           <h1>{title}</h1>
         </div>

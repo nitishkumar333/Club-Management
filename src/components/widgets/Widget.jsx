@@ -1,25 +1,20 @@
 import "./widget.scss";
-import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
 import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
 import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
 import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
 import { useEffect } from "react";
 import { useState } from "react";
-import { useAuth } from "../../context/authContext.js";
 
 const Widget = ({ type }) => {
   let data;
   let url;
-  const { token } = useAuth();
   const [count, setCount] = useState(0);
-  const diff = 20;
 
   switch (type) {
     case "user":
       data = {
         title: "USERS",
-        isMoney: false,
         link: "See all users",
         icon: (
           <PersonOutlinedIcon
@@ -36,8 +31,7 @@ const Widget = ({ type }) => {
     case "societies":
       data = {
         title: "SOCIETIES",
-        isMoney: false,
-        link: "View all orders",
+        link: "View all Societies",
         icon: (
           <ShoppingCartOutlinedIcon
             className="icon"
@@ -53,8 +47,7 @@ const Widget = ({ type }) => {
     case "members":
       data = {
         title: "MEMBERS",
-        isMoney: true,
-        link: "View net earnings",
+        link: "View all Members",
         icon: (
           <MonetizationOnOutlinedIcon
             className="icon"
@@ -67,8 +60,7 @@ const Widget = ({ type }) => {
     case "events":
       data = {
         title: "EVENTS",
-        isMoney: true,
-        link: "See details",
+        link: "View all Events",
         icon: (
           <AccountBalanceWalletOutlinedIcon
             className="icon"
@@ -86,12 +78,7 @@ const Widget = ({ type }) => {
   }
 
   useEffect(() => {
-    fetch(url, {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
+    fetch(url)
       .then((res) => {
         return res.json();
       })
@@ -108,16 +95,11 @@ const Widget = ({ type }) => {
       <div className="left">
         <span className="title">{data.title}</span>
         <span className="counter">
-          {data.isMoney && "&"}
           {count}
         </span>
         <span className="link">{data.link}</span>
       </div>
       <div className="right">
-        <div className="percentage positive">
-          <KeyboardArrowUpIcon />
-          {diff}%
-        </div>
         {data.icon}
       </div>
     </div>

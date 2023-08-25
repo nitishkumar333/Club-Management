@@ -31,24 +31,14 @@
         border-bottom: 1px solid gray;
       }
   
-      .percentage {
-        display: flex;
-        align-items: center;
-        font-size: 14px;
-  
-        &.positive {
-          color: green;
-        }
-        &.negative {
-          color: red;
-        }
-      }
-  
       .icon {
-        font-size: 18px;
+        font-size: 50px;
         padding: 5px;
         border-radius: 5px;
         align-self: flex-end;
       }
+    }
+    .right{
+      margin: auto 0;
     }
   }

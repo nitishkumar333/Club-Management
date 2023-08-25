@@ -1,8 +1,6 @@
 import "./Single.scss";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Navbar from "../../components/navbar/Navbar.jsx";
-import Chart from "../../components/chart/Chart.jsx";
-import List from "../../components/table/Table.jsx";
 import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SingleEditForm from "./SingleEditForm.jsx";

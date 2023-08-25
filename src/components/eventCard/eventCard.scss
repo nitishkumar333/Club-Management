@@ -4,16 +4,16 @@
 
 .experience-body {
   display: grid;
-  grid-template-columns: 1fr 1fr 1fr;
+  // grid-template-columns: 1fr 1fr 1fr;
   grid-gap: 15px;
   align-items: stretch;
-  justify-items: center;
-  padding: 1rem;
+  // justify-items: center;
+  padding: 1rem 1rem 0rem 1rem;
+  grid-auto-rows: 11rem;
 }
 
 .experience-body > h1 {
   font-size: 3.5rem;
-  font-family: var(--primaryFont);
   margin-bottom: 2rem;
 }
 
@@ -25,12 +25,10 @@
   flex-direction: row;
   align-items: flex-start;
   justify-content: flex-start;
-  width: 90%;
-  max-height: 100%;
-  height: 140px;
+  width: 100%;
+  height: 100%;
   padding: 1.5rem;
   border-radius: 20px;
-  margin-bottom: 1.5rem;
   transition: background-color 200ms ease-in-out;
 
   .controls{
@@ -71,25 +69,19 @@
 }
 
 .experience-details > h6 {
-  font-family: var(--primaryFont);
   font-size: 0.85rem;
   font-weight: 700;
   margin-bottom: 0.5rem;
 }
 
 .experience-details > h4 {
-  font-family: var(--primaryFont);
   font-size: 1.225rem;
   font-weight: 600;
 }
 
 .experience-details > h5 {
-  font-family: var(--primaryFont);
   font-size: 1.15rem;
   font-weight: 600;
-}
-
-@media (min-width: 992px) and (max-width: 1380px) {
 }
 
 @media screen and (max-width: 992px) {
@@ -144,13 +136,4 @@
   .experience-description > h1 {
     font-size: 2.5rem;
   }
-}
-
-@media screen and (max-width: 400px) {
-}
-
-@media only screen and (min-device-width: 320px) and (max-device-width: 480px) and (-webkit-device-pixel-ratio: 2) and (device-aspect-ratio: 2/3) {
-}
-
-@media only screen and (device-width: 768px) {
 }

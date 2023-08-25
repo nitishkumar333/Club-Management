@@ -4,7 +4,7 @@ import "./eventCard.scss";
 import { useAuth } from "../../context/authContext.js";
 import { useNavigate } from "react-router-dom";
 function EventCard(eventData) {
-  const { eventId, societyId, eventname, date, imageUrl, setEventData, setViewIsActive } = eventData;
+  const { eventId, societyId, eventname, date, imageUrl, setEventData, setViewIsActive, isHomepage } = eventData;
   const url = `http://localhost:8080/${imageUrl}`;
   const { token } = useAuth();
   const navigate = useNavigate();
@@ -35,10 +35,10 @@ function EventCard(eventData) {
 
   return (
     <div key={eventId} className={`experience-card`}>
-      <div className="controls">
+      {!isHomepage && <div className="controls">
         <VisibilityIcon className="view" onClick={viewClickHandler}/>
         <DeleteIcon className="delete" onClick={handleDelete} />
-      </div>
+      </div>}
       <div className="experience-details">
         <img src={url} alt="" />
         <h6>{date}</h6>

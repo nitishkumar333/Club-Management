@@ -1,0 +1,21 @@
+.list {
+  display: flex;
+  width: 100%;
+  // max-height: 100vh;
+  .listContainer {
+    flex: 6;
+    max-height: 100vh;
+    overflow-y: scroll;
+  }
+}
+.loader {
+  position: fixed;
+  top: 40%;
+  left: 52%;
+}
+.loader2 {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}

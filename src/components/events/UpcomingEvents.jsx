@@ -69,9 +69,8 @@ const UpcomingEvents = () => {
         </Link>
       </div>
       {eventsData.length > 0 ? (
-        <div className="listContainer">
           <div className="experience" id="experience">
-            <div className="experience-body">
+            <div className="experience-body" style={{"gridTemplateColumns":"1fr 1fr 1fr"}}>
               {eventsData.map((event, index) => (
                 <EventCard
                   key={event._id}
@@ -90,7 +89,6 @@ const UpcomingEvents = () => {
               ))}
             </div>
           </div>
-        </div>
       ) : (
         <p style={{"textAlign":"center"}}>No Upcoming Events Found.</p>
       )}

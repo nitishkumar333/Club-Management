@@ -1,22 +1,25 @@
 import "./sidebar.scss";
 import DashboardIcon from "@mui/icons-material/Dashboard";
 import PersonOutlineIcon from "@mui/icons-material/PersonOutline";
-import LocalShippingIcon from "@mui/icons-material/LocalShipping";
-import CreditCardIcon from "@mui/icons-material/CreditCard";
 import StoreIcon from "@mui/icons-material/Store";
-import InsertChartIcon from "@mui/icons-material/InsertChart";
-import SettingsApplicationsIcon from "@mui/icons-material/SettingsApplications";
 import ExitToAppIcon from "@mui/icons-material/ExitToApp";
-import NotificationsNoneIcon from "@mui/icons-material/NotificationsNone";
-import SettingsSystemDaydreamOutlinedIcon from "@mui/icons-material/SettingsSystemDaydreamOutlined";
-import PsychologyOutlinedIcon from "@mui/icons-material/PsychologyOutlined";
 import AccountCircleOutlinedIcon from "@mui/icons-material/AccountCircleOutlined";
 import { Link } from "react-router-dom";
 import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
+import { useAuth } from "../../context/authContext.js";
+import { useLocation } from "react-router-dom";
 
 const Sidebar = () => {
   const { dispatch } = useContext(DarkModeContext);
+  const { dispatchAuth } = useAuth();
+  const {pathname} = useLocation();
+  const logoutHandler = () => {
+    dispatchAuth({type:'LOGOUT'});
+    localStorage.removeItem("isAuth");
+    localStorage.removeItem("token");
+    localStorage.removeItem("userId");
+  }
   return (
     <div className="sidebar">
       <div className="top">
@@ -29,62 +32,38 @@ const Sidebar = () => {
         <ul>
           <p className="title">MAIN</p>
           <Link to="/" style={{ textDecoration: "none" }}>
-            <li>
+            <li className={pathname.length===1 ? "selected" : ""}>
               <DashboardIcon className="icon" />
               <span>Dashboard</span>
             </li>
           </Link>
           <p className="title">LISTS</p>
           <Link to="/societies" style={{ textDecoration: "none" }}>
-            <li>
+            <li className={pathname.includes("societies") ? "selected" : ""}>
               <PersonOutlineIcon className="icon" />
               <span>Societies</span>
             </li>
           </Link>
-          <Link to="/upcomingEvents" style={{ textDecoration: "none" }}>
-            <li>
-              <StoreIcon className="icon" />
-              <span>Upcoming Events</span>
-            </li>
-          </Link>
           <Link to="/pastEvents" style={{ textDecoration: "none" }}>
-            <li>
+            <li className={pathname.includes("pastEvents") ? "selected" : ""}>
               <StoreIcon className="icon" />
               <span>Past Events</span>
             </li>
           </Link>
-          <li>
-            <LocalShippingIcon className="icon" />
-            <span>Delivery</span>
-          </li>
-          <p className="title">USEFUL</p>
-          <li>
-            <InsertChartIcon className="icon" />
-            <span>Stats</span>
-          </li>
-          <li>
-            <NotificationsNoneIcon className="icon" />
-            <span>Notifications</span>
-          </li>
-          <p className="title">SERVICE</p>
-          <li>
-            <SettingsSystemDaydreamOutlinedIcon className="icon" />
-            <span>System Health</span>
-          </li>
-          <li>
-            <PsychologyOutlinedIcon className="icon" />
-            <span>Logs</span>
-          </li>
-          <li>
-            <SettingsApplicationsIcon className="icon" />
-            <span>Settings</span>
-          </li>
+          <Link to="/upcomingEvents" style={{ textDecoration: "none" }}>
+            <li className={pathname.includes("upcomingEvents") ? "selected" : ""}>
+              <StoreIcon className="icon" />
+              <span>Upcoming Events</span>
+            </li>
+          </Link>
           <p className="title">USER</p>
-          <li>
-            <AccountCircleOutlinedIcon className="icon" />
-            <span>Profile</span>
-          </li>
-          <li>
+          <Link to="/login" style={{ textDecoration: "none" }}>
+            <li className={pathname.includes("login") ? "selected" : ""}>
+              <AccountCircleOutlinedIcon className="icon" />
+              <span>Login</span>
+            </li>
+          </Link>
+          <li onClick={logoutHandler}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
           </li>

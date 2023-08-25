@@ -62,9 +62,8 @@ const PastEvents = () => {
     <div className="datatable">
       <div className="datatableTitle">Completed Events</div>
       {eventsData.length > 0 ? (
-        <div className="listContainer">
           <div className="experience" id="experience">
-            <div className="experience-body">
+            <div className="experience-body" style={{"gridTemplateColumns":"1fr 1fr 1fr"}}>
               {eventsData.map((event) => (
                 <EventCard
                   key={event._id}
@@ -84,7 +83,6 @@ const PastEvents = () => {
               ))}
             </div>
           </div>
-        </div>
       ) : (
         <p style={{ textAlign: "center" }}>No Completed Events Found.</p>
       )}

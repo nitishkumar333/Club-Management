@@ -18,13 +18,13 @@ export const authReducer = (state, action) => {
 };
 
 export const AuthContextProvider = ({ children }) => {
-  const [state, dispatch] = useReducer(authReducer, {
+  const [state, dispatchAuth] = useReducer(authReducer, {
     isAuth: localStorage.getItem("isAuth"),
     token: localStorage.getItem("token"),
     userId: localStorage.getItem("userId"),
   });
   return (
-    <authContext.Provider value={{ ...state, dispatch }}>
+    <authContext.Provider value={{ ...state, dispatchAuth }}>
       {children}
     </authContext.Provider>
   );

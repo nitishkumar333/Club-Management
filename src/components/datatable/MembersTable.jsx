@@ -99,6 +99,7 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
         )
       }}
         rows={userRows}
+        getRowClassName={(params) => `fade-in-row`}
         columns={membersColumns.concat(actionColumn)}
         initialState={{
           pagination: {
@@ -111,8 +112,10 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
           },
           "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within": {
             outline: "none",
-          },
+          }
         }}
+        showCellVerticalBorder
+        showColumnVerticalBorder  
         autoHeight
         disableSelectionOnClick
         isRowSelectable={() => false}

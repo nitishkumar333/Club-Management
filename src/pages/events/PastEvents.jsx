@@ -1,9 +1,10 @@
 import { useState, useEffect } from "react";
-import Navbar from "../../components/navbar/Navbar.jsx";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Post from "../../components/events/Post.jsx";
+import { RotatingLines } from "react-loader-spinner";
 const PastEvents = () => {
   const [eventsData, setEventsData] = useState([]);
+  const [isLoading, setIsLoading] = useState(true);
   useEffect(() => {
     fetch(`http://localhost:8080/all/pastEvents`)
       .then((result) => {
@@ -13,8 +14,8 @@ const PastEvents = () => {
         return result.json();
       })
       .then((result) => {
-        console.log(result);
         setEventsData(result.events);
+        setIsLoading(false);
         return result;
       })
       .catch((err) => {
@@ -26,11 +27,11 @@ const PastEvents = () => {
     <div className="list">
       <Sidebar />
       <div className="listContainer">
-        <Navbar />
         <div className="datatable">
-          <div className="datatableTitle" style={{"marginLeft":"20px"}}>Past Events</div>
-          {eventsData.length > 0 ? (
-            <div className="listContainer">
+          <div className="datatableTitle" style={{ marginLeft: "20px" }}>
+            Past Events
+          </div>
+          {!isLoading && eventsData.length > 0 && (
               <div className="experience" id="experience">
                 <div>
                   {eventsData.map((event) => (
@@ -47,9 +48,20 @@ const PastEvents = () => {
                   ))}
                 </div>
               </div>
-            </div>
-          ) : (
+          )}
+          {!isLoading && eventsData.length === 0 && (
             <p style={{ textAlign: "center" }}>No Events Found.</p>
+          )}
+          {isLoading && (
+            <div className="loader">
+              <RotatingLines
+                strokeColor="#007bff"
+                strokeWidth="4"
+                animationDuration="1.3"
+                width="80"
+                visible={true}
+              />
+            </div>
           )}
         </div>
       </div>

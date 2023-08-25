@@ -1,6 +1,5 @@
 import "./new.scss";
 import Sidebar from "../../components/sidebar/Sidebar";
-import Navbar from "../../components/navbar/Navbar";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useState } from "react";
 import { useAuth } from "../../context/authContext.js";
@@ -35,7 +34,6 @@ const New = ({ inputs, title }) => {
     <div className="new">
       <Sidebar />
       <div className="newContainer">
-        <Navbar />
         <div className="top">
           <h1>{title}</h1>
         </div>

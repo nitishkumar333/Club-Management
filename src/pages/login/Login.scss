@@ -2,11 +2,20 @@
   display: flex;
   justify-content: center;
   align-items: center;
-  height: 100vh;
+  height: 80%;
   h2 {
     margin-top: 0;
     margin-bottom: 20px;
     text-align: center;
+  }
+  .switchText{
+    font-size: 15px;
+    padding-top: 10px;
+    span{
+      color: #007bff;
+      margin-left: 4px;
+      cursor: pointer;
+    }
   }
 }
 

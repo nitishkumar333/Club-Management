@@ -11,9 +11,11 @@
     justify-content: center;
 
     .logo {
-      font-size: 20px;
+      font-size: 25px;
       font-weight: bold;
-      color: #6439ff;
+      color: #007bff;
+      font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
+      letter-spacing: 4px;
     }
   }
 
@@ -30,8 +32,12 @@
       margin: 0;
       padding: 0;
 
+      .selected{
+        background-color: #c1dfff;
+      }
+
       .title {
-        font-size: 10px;
+        font-size: 15px;
         font-weight: bold;
         color: #999;
         margin-top: 15px;
@@ -44,19 +50,19 @@
         padding: 5px;
         cursor: pointer;
 
-        &:hover {
+        &:not(.selected):hover {
           background-color: #ece8ff;
         }
 
         .icon {
-          font-size: 18px;
-          color: #7451f8;
+          font-size: 23px;
+          color: #007bff;
         }
 
         span{
-            font-size: 13px;
+            font-size: 16px;
             font-weight: 600;
-            color: #888;
+            color: rgb(113, 113, 113);
             margin-left: 10px;
         }
       }
@@ -72,7 +78,7 @@
           width: 20px;
           height: 20px;
           border-radius: 5px;
-          border: 1px solid #7451f8;
+          border: 1px solid #007bff;
           cursor: pointer;
           margin: 5px;
 

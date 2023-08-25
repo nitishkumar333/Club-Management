@@ -1,14 +1,17 @@
 import "./Login.scss";
 import React, { useState } from "react";
 import { useAuth } from "../../context/authContext.js";
+import { useNavigate } from "react-router-dom";
+import Sidebar from "../../components/sidebar/Sidebar.jsx";
 
 const Login = () => {
+  const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState({
     email: "",
     password: "",
     name: "",
   });
-  const { userId, token, isAuth, dispatch } = useAuth();
+  const { userId, token, isAuth, dispatchAuth } = useAuth();
   console.log(userId, token, isAuth);
 
   const handleSignUpChange = (e) => {
@@ -17,6 +20,8 @@ const Login = () => {
   };
 
   const [signInData, setSignInData] = useState({ email: "", password: "" });
+  const [haveAccount, setHaveAccount] = useState(false);
+
   const handleSignInChange = (e) => {
     const { name, value } = e.target;
     setSignInData((prevState) => ({ ...prevState, [name]: value }));
@@ -27,7 +32,7 @@ const Login = () => {
       method: "POST",
       headers: {
         "Content-type": "application/json",
-        Authorization: 'Bearer ' + token
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
         email: signInData.email,
@@ -46,14 +51,16 @@ const Login = () => {
       })
       .then((resData) => {
         console.log(resData);
-        dispatch({
-          type:'LOGIN',
+        dispatchAuth({
+          type: "LOGIN",
           token: resData.token,
           userId: resData.userId,
-          isAuth: true
+          isAuth: true,
         });
+        localStorage.setItem("isAuth", true);
         localStorage.setItem("token", resData.token);
         localStorage.setItem("userId", resData.userId);
+        navigate(-1);
       })
       .catch((err) => {
         console.log(err);
@@ -66,7 +73,7 @@ const Login = () => {
       method: "PUT",
       headers: {
         "Content-type": "application/json",
-        Authorization: 'Bearer ' + token
+        Authorization: "Bearer " + token,
       },
       body: JSON.stringify({
         email: signUpData.email,
@@ -86,61 +93,76 @@ const Login = () => {
         }
         return res.json();
       })
-      .then((resData) => {
-        console.log(resData);
-      })
+      .then((resData) => {})
       .catch((err) => {
         console.log(err);
       });
   };
   return (
-    <div className="sign-in-sign-up-container">
-      <div className="sign-in">
-        <h2>Sign In</h2>
-        <form onSubmit={handleSignInSubmit}>
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={signInData.email}
-            onChange={handleSignInChange}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={signInData.password}
-            onChange={handleSignInChange}
-          />
-          <button type="submit">Sign In</button>
-        </form>
-      </div>
-      <div className="sign-up">
-        <h2>Sign Up</h2>
-        <form onSubmit={handleSignUpSubmit}>
-          <input
-            type="text"
-            name="name"
-            placeholder="Full Name"
-            value={signUpData.name}
-            onChange={handleSignUpChange}
-          />
-          <input
-            type="email"
-            name="email"
-            placeholder="Email"
-            value={signUpData.email}
-            onChange={handleSignUpChange}
-          />
-          <input
-            type="password"
-            name="password"
-            placeholder="Password"
-            value={signUpData.password}
-            onChange={handleSignUpChange}
-          />
-          <button type="submit">Sign Up</button>
-        </form>
+    <div className="list">
+      <Sidebar />
+      <div className="listContainer">
+        <div className="sign-in-sign-up-container">
+          {haveAccount && (
+            <div className="sign-in">
+              <h2>Sign In</h2>
+              <form onSubmit={handleSignInSubmit}>
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={signInData.email}
+                  onChange={handleSignInChange}
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={signInData.password}
+                  onChange={handleSignInChange}
+                />
+                <button type="submit">Sign In</button>
+                <span class="switchText">
+                  Don't Have An Account ?{" "}
+                  <span onClick={() => setHaveAccount(false)}>Create</span>
+                </span>
+              </form>
+            </div>
+          )}
+          {!haveAccount && (
+            <div className="sign-up">
+              <h2>Sign Up</h2>
+              <form onSubmit={handleSignUpSubmit}>
+                <input
+                  type="text"
+                  name="name"
+                  placeholder="Full Name"
+                  value={signUpData.name}
+                  onChange={handleSignUpChange}
+                />
+                <input
+                  type="email"
+                  name="email"
+                  placeholder="Email"
+                  value={signUpData.email}
+                  onChange={handleSignUpChange}
+                />
+                <input
+                  type="password"
+                  name="password"
+                  placeholder="Password"
+                  value={signUpData.password}
+                  onChange={handleSignUpChange}
+                />
+                <button type="submit">Sign Up</button>
+                <span class="switchText">
+                  Already Have An Account ?
+                  <span onClick={() => setHaveAccount(true)}>Sign In</span>
+                </span>
+              </form>
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );
