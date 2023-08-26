@@ -108,6 +108,9 @@ const Datatable = ({ userRows, setUserRows }) => {
             outline: "none",
           },
         }}
+        getRowClassName={(params) => `fade-in-row`}
+        showCellVerticalBorder
+        showColumnVerticalBorder 
         autoHeight
         rows={userRows}
         columns={userColumns.concat(actionColumn)}

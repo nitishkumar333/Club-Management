@@ -1,10 +1,16 @@
 import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
-import Post from "../../components/events/Post.jsx";
+import { useTransition, animated } from "@react-spring/web";
 import { RotatingLines } from "react-loader-spinner";
+import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
 const PastEvents = () => {
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
+  const transition = useTransition(eventsData, {
+    from: { opacity: 0, scale: 0.7 },
+    enter: { opacity: 1, scale: 1 },
+    trail: 150,
+  });
   useEffect(() => {
     fetch(`http://localhost:8080/all/pastEvents`)
       .then((result) => {
@@ -28,42 +34,43 @@ const PastEvents = () => {
       <Sidebar />
       <div className="listContainer">
         <div className="datatable">
-          <div className="datatableTitle" style={{ marginLeft: "20px" }}>
-            Past Events
-          </div>
-          {!isLoading && eventsData.length > 0 && (
-              <div className="experience" id="experience">
-                <div>
-                  {eventsData.map((event) => (
-                    <Post
+          <div className="datatableTitle" style={{ marginLeft: "20px" }}>Completed Events</div>
+          {eventsData.length > 0 && (
+            <div className="experience" id="experience">
+              <div className="experience-body" style={{"gridAutoRows": "15rem"}}>
+                {transition((style, event) => (
+                  <animated.div style={style}>
+                    <EventCardForPage
                       key={event._id}
+                      eventId={event._id}
                       eventname={event.eventname}
                       description={event.description}
                       department={event.department}
                       date={event.date}
                       imageUrl={event.imageUrl}
-                      type={event.type}
                       winners={event.winners}
+                      isPastEvent
                     />
-                  ))}
-                </div>
+                  </animated.div>
+                ))}
               </div>
-          )}
-          {!isLoading && eventsData.length === 0 && (
-            <p style={{ textAlign: "center" }}>No Events Found.</p>
-          )}
-          {isLoading && (
-            <div className="loader">
-              <RotatingLines
-                strokeColor="#007bff"
-                strokeWidth="4"
-                animationDuration="1.3"
-                width="80"
-                visible={true}
-              />
             </div>
           )}
         </div>
+        {!isLoading && eventsData.length === 0 && (
+          <p style={{ textAlign: "center" }}>No Events Found.</p>
+        )}
+        {isLoading && (
+          <div className="loader">
+            <RotatingLines
+              strokeColor="#007bff"
+              strokeWidth="4"
+              animationDuration="1.3"
+              width="80"
+              visible={true}
+            />
+          </div>
+        )}
       </div>
     </div>
   );

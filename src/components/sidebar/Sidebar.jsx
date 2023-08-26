@@ -47,7 +47,7 @@ const Sidebar = () => {
           <Link to="/pastEvents" style={{ textDecoration: "none" }}>
             <li className={pathname.includes("pastEvents") ? "selected" : ""}>
               <StoreIcon className="icon" />
-              <span>Past Events</span>
+              <span>Completed Events</span>
             </li>
           </Link>
           <Link to="/upcomingEvents" style={{ textDecoration: "none" }}>

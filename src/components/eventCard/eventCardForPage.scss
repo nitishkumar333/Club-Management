@@ -9,6 +9,20 @@
   padding: 1.5rem;
   border-radius: 20px;
 
+  .extraDetails {
+    display: flex;
+    justify-content: space-between;
+    .winners {
+      display: flex;
+      gap: 10px;
+      font-size: 12px;
+      span{
+        // font-weight: 600;
+        // font-size: 15px;
+        color: chartreuse;
+      }
+    }
+  }
   .date {
     width: 100%;
     text-align: right;

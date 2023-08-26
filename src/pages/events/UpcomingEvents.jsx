@@ -2,7 +2,6 @@ import { useState, useEffect } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import { RotatingLines } from "react-loader-spinner";
-import EventCard from "../../components/eventCard/EventCard.jsx";
 import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
 const UpcomingEvents = () => {
   const [eventsData, setEventsData] = useState([]);
@@ -35,10 +34,10 @@ const UpcomingEvents = () => {
       <Sidebar />
       <div className="listContainer">
         <div className="datatable">
-          <div className="datatableTitle">Upcoming Events</div>
+          <div className="datatableTitle" style={{ marginLeft: "20px" }}>Upcoming Events</div>
           {eventsData.length > 0 && (
             <div className="experience" id="experience">
-              <div className="experience-body">
+              <div className="experience-body" style={{"gridAutoRows": "15rem"}}>
                 {transition((style, event) => (
                   <animated.div style={style}>
                     <EventCardForPage
@@ -49,7 +48,6 @@ const UpcomingEvents = () => {
                       department={event.department}
                       date={event.date}
                       imageUrl={event.imageUrl}
-                      isHomepage
                     />
                   </animated.div>
                 ))}
