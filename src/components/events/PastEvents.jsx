@@ -3,6 +3,7 @@ import { useAuth } from "../../context/authContext.js";
 import { useState, useEffect } from "react";
 import EventCard from "../eventCard/EventCard.jsx";
 import EventViewCard from "../eventViewCard/EventViewCard.jsx";
+import { deleteHandlerPrivate } from "../../apiFetch.js";
 const PastEvents = () => {
   const [viewIsActive, setViewIsActive] = useState(false);
   const [eventData, setEventData] = useState();
@@ -58,6 +59,17 @@ const PastEvents = () => {
       });
   };
 
+  const eventDeleteHandler = (eventId) => {
+    const api = `http://localhost:8080/events/${params.societyId}/${eventId}`;
+    deleteHandlerPrivate(
+      api,
+      () => {
+        setEventsData(eventsData.filter((event) => event._id !== eventId));
+      },
+      token
+    );
+  }
+
   return (
     <div className="datatable">
       <div className="datatableTitle">Completed Events</div>
@@ -79,6 +91,7 @@ const PastEvents = () => {
                   type={event.type}
                   setViewIsActive={setViewIsActive}
                   setEventData={setEventData}
+                  eventDeleteHandler={eventDeleteHandler}
                 />
               ))}
             </div>

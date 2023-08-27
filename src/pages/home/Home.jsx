@@ -8,6 +8,15 @@ import { useEffect, useState, useRef } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { useTransition, animated } from "@react-spring/web";
 const Home = () => {
+  let departmentData = new Map([
+    ["CORE", 0],
+    ["ME", 0],
+    ["B.Farma", 0],
+    ["AIML", 0],
+    ["IOT", 0],
+    ["DS", 0],
+    ["ECE", 0],
+  ]);
   const [eventsData, setEventsData] = useState([]);
   const [barData, setBarData] = useState();
   const [isLoading, setIsLoading] = useState(true);
@@ -22,10 +31,11 @@ const Home = () => {
       })
       .then((res) => {
         res.map((soc) => {
+          const department = soc.department.includes("CSE ")? soc.department.replace("CSE ", ""):soc.department;
+          console.log(soc.department);
           departmentData.set(
-            soc.department.replace("CSE ", ""),
-            departmentData.get(soc.department.replace("CSE ", "")) +
-              soc.events.length
+            department,
+            departmentData.get(department) + 1
           );
           return departmentData;
         });
@@ -120,16 +130,6 @@ const Home = () => {
 };
 
 export default Home;
-
-let departmentData = new Map([
-  ["CORE", 0],
-  ["ME", 0],
-  ["B.Farma", 0],
-  ["AIML", 0],
-  ["IOT", 0],
-  ["DS", 0],
-  ["ECE", 0],
-]);
 
 const barColors = [
   "#2ca02c90",

@@ -12,6 +12,7 @@ import { useContext } from "react";
 import { DarkModeContext } from "./context/darkModeContext.js";
 import UpcomingEvents from "./pages/events/UpcomingEvents.jsx";
 import PastEvents from "./pages/events/PastEvents.jsx";
+import EventDetails from "./components/eventCard/EventDetails.jsx";
 
 function App() {
   const { darkMode } = useContext(DarkModeContext);
@@ -23,6 +24,7 @@ function App() {
           <Route path="/">
             <Route index element={<Home />} />
             <Route path="login" element={<Login />} />
+            <Route path="events/:eventID" element={<EventDetails />} />
             <Route path="societies">
               <Route index element={<List />} />
               <Route path=":societyId">

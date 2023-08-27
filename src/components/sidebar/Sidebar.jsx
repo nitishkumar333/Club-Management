@@ -9,16 +9,45 @@ import { DarkModeContext } from "../../context/darkModeContext";
 import { useContext } from "react";
 import { useAuth } from "../../context/authContext.js";
 import { useLocation } from "react-router-dom";
-
+import Swal from "sweetalert2";
+import { useNavigate } from "react-router-dom";
 const Sidebar = () => {
+  const navigate = useNavigate();
   const { dispatch } = useContext(DarkModeContext);
-  const { dispatchAuth } = useAuth();
+  const { isAuth, dispatchAuth } = useAuth();
   const {pathname} = useLocation();
   const logoutHandler = () => {
-    dispatchAuth({type:'LOGOUT'});
-    localStorage.removeItem("isAuth");
-    localStorage.removeItem("token");
-    localStorage.removeItem("userId");
+    Swal.fire({
+      title: "Are you sure?",
+      text: "You won't be able to revert this!",
+      icon: "warning",
+      showCancelButton: true,
+      confirmButtonColor: "#3085d6",
+      cancelButtonColor: "#d33",
+      confirmButtonText: "LogOut!",
+    }).then(async (result)=>{
+      if (result.value){
+        dispatchAuth({type:'LOGOUT'});
+        localStorage.removeItem("isAuth");
+        localStorage.removeItem("token");
+        localStorage.removeItem("userId");
+        Swal.fire({
+          icon: "success",
+          title: "Deleted!",
+          text: `Logged Out !!`,
+          showConfirmButton: false,
+          timer: 1500,
+        });
+        return navigate("/");
+      }
+    }).catch((err) => {
+      return Swal.fire({
+        icon: "error",
+        title: "Error!",
+        text: `${err?.message || "Something Went Wrong!!"}`,
+        showConfirmButton: true,
+      });
+    });
   }
   return (
     <div className="sidebar">
@@ -57,16 +86,16 @@ const Sidebar = () => {
             </li>
           </Link>
           <p className="title">USER</p>
-          <Link to="/login" style={{ textDecoration: "none" }}>
+          {!isAuth && <Link to="/login" style={{ textDecoration: "none" }}>
             <li className={pathname.includes("login") ? "selected" : ""}>
               <AccountCircleOutlinedIcon className="icon" />
               <span>Login</span>
             </li>
-          </Link>
-          <li onClick={logoutHandler}>
+          </Link>}
+          {isAuth && <li onClick={logoutHandler}>
             <ExitToAppIcon className="icon" />
             <span>Logout</span>
-          </li>
+          </li>}
         </ul>
       </div>
       <div className="bottom">

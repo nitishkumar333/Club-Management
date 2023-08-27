@@ -8,8 +8,7 @@
   grid-gap: 15px;
   align-items: stretch;
   // justify-items: center;
-  padding: 1rem 1rem 0rem 1rem;
-  grid-auto-rows: 11rem;
+  grid-auto-rows: 13rem;
 }
 
 .experience-body > h1 {
@@ -38,11 +37,21 @@
     margin-right: 10px;
     .delete{
       margin-left: 5px;
-      font-size: 18px;
+      font-size: 30px;
       color: rgb(242, 66, 66);
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .delete:hover{
+      transform: translateY(-6px);
     }
     .view{
-      font-size: 18px;
+      font-size: 30px;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+    .view:hover{
+      transform: translateY(-6px);
     }
   }
 }

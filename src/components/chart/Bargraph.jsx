@@ -16,7 +16,7 @@ const Bargraph = ({ aspect, title, barData }) => {
       <ResponsiveContainer width="100%" aspect={aspect}>
         <BarChart data={barData}>
           <XAxis dataKey="department" />
-          <YAxis width={20} />
+          <YAxis width={25} />
           <Tooltip />
           <CartesianGrid strokeDasharray="3 3" className="chartGrid" />
           <Bar dataKey="num" type="monotone" animationDuration={1000} />

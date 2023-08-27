@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import { RotatingLines } from "react-loader-spinner";
-import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
+// import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
+import EventItem from "../../components/eventCard/EventItem.jsx";
+import { getData } from "../../apiFetch.js";
 const UpcomingEvents = () => {
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,21 +14,10 @@ const UpcomingEvents = () => {
     trail: 150,
   });
   useEffect(() => {
-    fetch(`http://localhost:8080/all/upcomingEvents`)
-      .then((result) => {
-        if (result.status !== 200) {
-          throw new Error("Failed to Fetch !!");
-        }
-        return result.json();
-      })
-      .then((result) => {
-        setEventsData(result.events);
-        setIsLoading(false);
-        return result;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getData("http://localhost:8080/all/upcomingEvents", (result) => {
+      setEventsData(result.events);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
@@ -34,13 +25,14 @@ const UpcomingEvents = () => {
       <Sidebar />
       <div className="listContainer">
         <div className="datatable">
-          <div className="datatableTitle" style={{ marginLeft: "20px" }}>Upcoming Events</div>
+          <div className="datatableTitle" style={{ paddingLeft: "42px" }}>Upcoming Events</div>
           {eventsData.length > 0 && (
             <div className="experience" id="experience">
-              <div className="experience-body" style={{"gridAutoRows": "15rem"}}>
+              {/* <div className="experience-body" style={{"gridAutoRows": "15rem"}}> */}
+              <ul className="events-list">
                 {transition((style, event) => (
                   <animated.div style={style}>
-                    <EventCardForPage
+                    <EventItem
                       key={event._id}
                       eventId={event._id}
                       eventname={event.eventname}
@@ -51,7 +43,8 @@ const UpcomingEvents = () => {
                     />
                   </animated.div>
                 ))}
-              </div>
+              </ul>
+              {/* </div> */}
             </div>
           )}
         </div>

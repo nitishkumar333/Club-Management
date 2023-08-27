@@ -6,6 +6,7 @@ import { Link, useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 import { useState } from "react";
 import SingleEditForm from "../../pages/single/SingleEditForm.jsx";
+import { deleteHandlerPrivate } from "../../apiFetch.js";
 const MembersTable = ({ userRows, setUserRows, name }) => {
   const [viewIsActive, setViewIsActive] = useState(false);
   const [memData, setMemData] = useState();
@@ -13,24 +14,14 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
   const navigate = useNavigate();
   const { token } = useAuth();
   const handleDelete = (memId) => {
-    fetch(`http://localhost:8080/societies/${params.societyId}/${memId}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Deleting a post failed!");
-        }
-        return res.json();
-      })
-      .then((resData) => {
+    const api = `http://localhost:8080/societies/${params.societyId}/${memId}`;
+    deleteHandlerPrivate(
+      api,
+      () => {
         setUserRows(userRows.filter((item) => item.id !== memId));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+      token
+    );
   };
   const viewHandler = (memData) => {
     setMemData(memData);
@@ -47,7 +38,8 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
       },
     })
       .then((result) => {
-        if(result.status === 500 || result.status === 402) throw new Error("Failed to fetch!");
+        if (result.status === 500 || result.status === 402)
+          throw new Error("Failed to fetch!");
         console.log("success!");
         console.log(result);
         return navigate(0);
@@ -62,8 +54,8 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
       field: "action",
       headerName: "Action",
       flex: 1,
-      align:'center',
-      headerAlign: 'center',
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -86,18 +78,18 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
     <div className="datatable">
       <div className="datatableTitle">
         {name} Members
-        <Link to="new" style={{ textDecoration: "none" }} className="link">
-          Add New Member
+        <Link to="new" className="button">
+          Add Member
         </Link>
       </div>
       <DataGrid
-      components={{
-        NoRowsOverlay: () => (
-          <Stack height="100%" alignItems="center" justifyContent="center">
-            No Society Found !!
-          </Stack>
-        )
-      }}
+        components={{
+          NoRowsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              No Society Found !!
+            </Stack>
+          ),
+        }}
         rows={userRows}
         getRowClassName={(params) => `fade-in-row`}
         columns={membersColumns.concat(actionColumn)}
@@ -112,10 +104,10 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
           },
           "&.MuiDataGrid-root .MuiDataGrid-columnHeader:focus-within": {
             outline: "none",
-          }
+          },
         }}
         showCellVerticalBorder
-        showColumnVerticalBorder  
+        showColumnVerticalBorder
         autoHeight
         disableSelectionOnClick
         isRowSelectable={() => false}

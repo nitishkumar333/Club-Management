@@ -13,6 +13,20 @@ import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 
 const Chart = ({ aspect, title }) => {
+  let monthData = new Map([
+    ["Jan", 0],
+    ["Feb", 0],
+    ["Mar", 0],
+    ["Apr", 0],
+    ["May", 0],
+    ["Jun", 0],
+    ["Jul", 0],
+    ["Aug", 0],
+    ["Sep", 0],
+    ["Oct", 0],
+    ["Nov", 0],
+    ["Dec", 0],
+  ]);
   console.log("chartRender");
   const [areaData, setAreaData] = useState([]);
   const areaDataFetch = () => {
@@ -92,21 +106,6 @@ const Chart = ({ aspect, title }) => {
 };
 
 export default Chart;
-
-let monthData = new Map([
-  ["Jan", 0],
-  ["Feb", 0],
-  ["Mar", 0],
-  ["Apr", 0],
-  ["May", 0],
-  ["Jun", 0],
-  ["Jul", 0],
-  ["Aug", 0],
-  ["Sep", 0],
-  ["Oct", 0],
-  ["Nov", 0],
-  ["Dec", 0],
-]);
 
 const monthNameMap = {
   "01": "Jan",

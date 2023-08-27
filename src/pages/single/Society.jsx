@@ -6,6 +6,7 @@ import { useState, useEffect } from "react";
 import UpcomingEvents from "../../components/events/UpcomingEvents.jsx";
 import PastEvents from "../../components/events/PastEvents.jsx";
 import { RotatingLines } from "react-loader-spinner";
+import { getDataPrivate } from "../../apiFetch.js";
 const Members = () => {
   const params = useParams();
   const { token } = useAuth();
@@ -13,33 +14,18 @@ const Members = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [societyName, setSocietyName] = useState("");
   useEffect(() => {
-    fetch(`http://localhost:8080/societies/${params.societyId}`, {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((result) => {
-        if (result.status !== 200) {
-          throw new Error("Failed to Fetch !!");
-        }
-        return result.json();
-      })
-      .then((result) => {
-        if (result.status === 500 || result.status === 402)
-          throw new Error("Failed to fetch!");
-        const usersArray = result.members.map((user) => {
-          const temp = user;
-          temp.id = temp._id;
-          return temp;
-        });
-        setSocietyName(result.societyName);
-        setUserRows(usersArray);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
+    getDataPrivate(`http://localhost:8080/societies/${params.societyId}`, (result) => {
+      const usersArray = result.members.map((user) => {
+        const temp = user;
+        temp.id = temp._id;
+        return temp;
       });
+      setSocietyName(result.societyName);
+      setUserRows(usersArray);
+      setIsLoading(false);
+    }, token);
   }, []);
+  
   return (
     <div className="list">
       <Sidebar />

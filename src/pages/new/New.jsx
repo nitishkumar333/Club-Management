@@ -102,7 +102,7 @@ const New = ({ inputs, title }) => {
                   )}
                 </div>
               ))}
-              <button type="submit">Add Club</button>
+              <button type="submit" className="button">Add Club</button>
             </form>
           </div>
         </div>

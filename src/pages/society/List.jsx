@@ -4,36 +4,29 @@ import Datatable from "../../components/datatable/Datatable.jsx";
 import { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext.js";
 import { RotatingLines } from "react-loader-spinner";
+import { getDataPrivate } from "../../apiFetch.js";
+import { useNavigate } from "react-router-dom";
 const List = () => {
   const [userRows, setUserRows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const { userId, token, isAuth } = useAuth();
+  const navigate = useNavigate();
   useEffect(() => {
-    fetch("http://localhost:8080/home/societies", {
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((result) => {
-        if (result.status !== 200) {
-          throw new Error("Failed to Fetch !!");
-        }
-        return result.json();
-      })
-      .then((res) => {
-        console.log("soceity-->" + res);
-        const usersArray = res.societies.map((user) => {
-          const temp = user;
-          temp.id = temp._id;
-          return temp;
-        });
-        setUserRows(usersArray);
-        setIsLoading(false);
-      })
-      .catch((err) => {
-        console.log(err);
+    if(!isAuth){
+      return navigate("/login");
+    }
+    getDataPrivate("http://localhost:8080/home/societies", (res) => {
+      console.log(res);
+      const usersArray = res.societies.map((user) => {
+        const temp = user;
+        temp.id = temp._id;
+        return temp;
       });
+      setUserRows(usersArray);
+      setIsLoading(false);
+    }, token);
   }, []);
+  
   return (
     <div className="list">
       <Sidebar />

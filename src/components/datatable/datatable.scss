@@ -40,21 +40,13 @@
   .datatableTitle{
     width: 100%;
     font-size: 24px;
-    color: gray;
+    color: rgb(52, 52, 52);
     margin-bottom: 10px;
     display: flex;
     align-items: center;
     justify-content: space-between;
-
-    .link{
-      text-decoration: none;
-      color: green;
-      font-size: smaller;
-      font-weight: 400;
-      border: 1px solid green;
-      padding: 5px;
-      border-radius: 5px;
-      cursor: pointer;
+    .button{
+      font-size: 16px;
     }
   }
   

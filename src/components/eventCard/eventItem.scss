@@ -1,0 +1,128 @@
+.button {
+  font: inherit;
+  cursor: pointer;
+  padding: 0.5rem 1.5rem;
+  border: none;
+  background-color: #007bff;
+  color: #fff;
+  border-radius: 4px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.26);
+  font-weight: bold;
+  text-decoration: none;
+  transition: all 0.3s ease;
+}
+.button:hover {
+  background-color: #0051a7;
+  color: #fff;
+  box-shadow: 0 3px 5px rgba(0, 0, 0, 0.5);
+}
+.events-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(20rem, 1fr));
+  // grid-template-columns: 1fr 1fr 1fr 1fr;
+  gap: 2rem;
+  align-items: stretch;
+  grid-auto-rows: 23rem;
+}
+.event-item {
+  height: 23rem;
+  margin: 0 0 1rem 0;
+  gap: 1rem;
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  width: 20rem;
+  .imageDiv {
+    width: 100%;
+    height: 180px;
+    img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-bottom: 2px solid gray;
+    }
+  }
+  background: rgb(255, 255, 255);
+  // background: rgba( 255, 255, 255, 0.25 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  border-radius: 10px;  
+  border: 2px solid gray;
+}
+.event-item-content {
+  height: 100%;
+  padding: 1rem;
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  color: #414141;
+}
+
+.event-item h2 {
+  font-size: 1.15rem;
+  font-family: "Lato", sans-serif;
+  margin: 0;
+  color: rgb(61, 61, 61);
+}
+
+.event-item .event-item-date {
+  margin: 0.5rem;
+  font-size: 0.85rem;
+  font-family: "Quicksand", sans-serif;
+}
+
+.event-item .event-item-location {
+  margin: 0.5rem;
+  font-size: 1rem;
+  font-family: "Quicksand", sans-serif;
+}
+
+#event-details header {
+  width: 60%;
+  margin: 1rem auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+#event-details header nav {
+  display: flex;
+  gap: 1rem;
+}
+
+#event-details-content {
+  width: 60%;
+  margin: 1rem auto;
+  overflow: hidden;
+  background: rgba( 255, 255, 255, 0.25 );
+  box-shadow: 0 8px 32px 0 rgba( 31, 38, 135, 0.37 );
+  border-radius: 10px;
+  border: 2px solid rgba( 255, 255, 255, 0.18 );
+}
+
+#event-details-content img {
+  width: 100%;
+  height: 20rem;
+  object-fit: cover;
+  margin-bottom: 2rem;
+}
+
+#event-details-info {
+  padding: 0 3rem 3rem 3rem;
+  div{
+    display: flex;
+    justify-content: space-between;
+    font-size: 1.15rem;
+    margin: 0 0 1rem 0;
+    p{
+      color: rgb(113, 113, 113);
+    }
+  }
+  .event-details-description {
+    font-size: 1.25rem;
+    line-height: 2rem;
+    font-weight: 300;
+    color: rgb(113, 113, 113);
+  }
+}
+

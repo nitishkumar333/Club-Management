@@ -3,6 +3,7 @@ import React, { useState } from "react";
 import { useAuth } from "../../context/authContext.js";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
+import Swal from "sweetalert2";
 
 const Login = () => {
   const navigate = useNavigate();
@@ -14,14 +15,13 @@ const Login = () => {
   const { userId, token, isAuth, dispatchAuth } = useAuth();
   console.log(userId, token, isAuth);
 
+  const [signInData, setSignInData] = useState({ email: "", password: "" });
+  const [isSignUp, setIsSignUp] = useState(isAuth);
+
   const handleSignUpChange = (e) => {
     const { name, value } = e.target;
     setSignUpData((prevState) => ({ ...prevState, [name]: value }));
   };
-
-  const [signInData, setSignInData] = useState({ email: "", password: "" });
-  const [haveAccount, setHaveAccount] = useState(false);
-
   const handleSignInChange = (e) => {
     const { name, value } = e.target;
     setSignInData((prevState) => ({ ...prevState, [name]: value }));
@@ -40,6 +40,7 @@ const Login = () => {
       }),
     })
       .then((res) => {
+        console.log(res)
         if (res.status === 422) {
           throw new Error("Validation failed.");
         }
@@ -60,10 +61,15 @@ const Login = () => {
         localStorage.setItem("isAuth", true);
         localStorage.setItem("token", resData.token);
         localStorage.setItem("userId", resData.userId);
-        navigate(-1);
+        navigate("/societies");
       })
       .catch((err) => {
-        console.log(err);
+        return Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Incorrect Email Id or Password.',
+          showConfirmButton: true
+        });
       });
   };
 
@@ -93,9 +99,16 @@ const Login = () => {
         }
         return res.json();
       })
-      .then((resData) => {})
+      .then((resData) => {
+        setIsSignUp(false);
+      })
       .catch((err) => {
-        console.log(err);
+        return Swal.fire({
+          icon: 'error',
+          title: 'Error!',
+          text: 'Something Went Wrong!!',
+          showConfirmButton: true
+        });
       });
   };
   return (
@@ -103,7 +116,7 @@ const Login = () => {
       <Sidebar />
       <div className="listContainer">
         <div className="sign-in-sign-up-container">
-          {haveAccount && (
+          {!isSignUp && (
             <div className="sign-in">
               <h2>Sign In</h2>
               <form onSubmit={handleSignInSubmit}>
@@ -111,25 +124,28 @@ const Login = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  required
                   value={signInData.email}
                   onChange={handleSignInChange}
                 />
                 <input
                   type="password"
                   name="password"
+                  autoComplete="off"
                   placeholder="Password"
+                  required
                   value={signInData.password}
                   onChange={handleSignInChange}
                 />
                 <button type="submit">Sign In</button>
-                <span class="switchText">
+                <span className="switchText">
                   Don't Have An Account ?{" "}
-                  <span onClick={() => setHaveAccount(false)}>Create</span>
+                  <span onClick={() => setIsSignUp(true)}>Create</span>
                 </span>
               </form>
             </div>
           )}
-          {!haveAccount && (
+          {isSignUp && (
             <div className="sign-up">
               <h2>Sign Up</h2>
               <form onSubmit={handleSignUpSubmit}>
@@ -137,6 +153,7 @@ const Login = () => {
                   type="text"
                   name="name"
                   placeholder="Full Name"
+                  required
                   value={signUpData.name}
                   onChange={handleSignUpChange}
                 />
@@ -144,20 +161,23 @@ const Login = () => {
                   type="email"
                   name="email"
                   placeholder="Email"
+                  required
                   value={signUpData.email}
                   onChange={handleSignUpChange}
                 />
                 <input
                   type="password"
                   name="password"
+                  autoComplete="off"
                   placeholder="Password"
+                  required
                   value={signUpData.password}
                   onChange={handleSignUpChange}
                 />
                 <button type="submit">Sign Up</button>
-                <span class="switchText">
+                <span className="switchText">
                   Already Have An Account ?
-                  <span onClick={() => setHaveAccount(true)}>Sign In</span>
+                  <span onClick={() => setIsSignUp(false)}>Sign In</span>
                 </span>
               </form>
             </div>

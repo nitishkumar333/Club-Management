@@ -4,6 +4,7 @@ import { useState, useEffect } from "react";
 import EventCard from "../eventCard/EventCard.jsx";
 import EventViewCard from "../eventViewCard/EventViewCard.jsx";
 import { useNavigate } from "react-router-dom";
+import { deleteHandlerPrivate } from "../../apiFetch.js";
 const UpcomingEvents = () => {
   const [viewIsActive, setViewIsActive] = useState(false);
   const [eventData, setEventData] = useState();
@@ -60,12 +61,23 @@ const UpcomingEvents = () => {
       });
   };
 
+  const eventDeleteHandler = (eventId) => {
+    const api = `http://localhost:8080/events/${params.societyId}/${eventId}`;
+    deleteHandlerPrivate(
+      api,
+      () => {
+        setEventsData(eventsData.filter((event) => event._id !== eventId));
+      },
+      token
+    );
+  }
+
   return (
     <div className="datatable">
       <div className="datatableTitle">
         Upcoming Events
-        <Link to="newEvent" style={{ textDecoration: "none" }} className="link">
-          Add New Event
+        <Link to="newEvent" className="button">
+          Add Event
         </Link>
       </div>
       {eventsData.length > 0 ? (
@@ -85,6 +97,7 @@ const UpcomingEvents = () => {
                   type={event.type}
                   setViewIsActive={setViewIsActive}
                   setEventData={setEventData}
+                  eventDeleteHandler={eventDeleteHandler}
                 />
               ))}
             </div>

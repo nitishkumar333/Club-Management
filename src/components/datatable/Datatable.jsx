@@ -4,36 +4,26 @@ import { userColumns } from "../../datatablesource.js";
 import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 import { Stack } from "@mui/material";
+import { deleteHandlerPrivate } from "../../apiFetch.js";
 const Datatable = ({ userRows, setUserRows }) => {
   const { token } = useAuth();
   const handleDelete = (id) => {
-    fetch(`http://localhost:8080/home/society/${id}`, {
-      method: "DELETE",
-      headers: {
-        Authorization: "Bearer " + token,
-      },
-    })
-      .then((res) => {
-        if (res.status !== 200 && res.status !== 201) {
-          throw new Error("Deleting a post failed!");
-        }
-        return res.json();
-      })
-      .then((resData) => {
-        console.log(resData);
+    const api = `http://localhost:8080/home/society/${id}`;
+    deleteHandlerPrivate(
+      api,
+      () => {
         setUserRows(userRows.filter((item) => item.id !== id));
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+      },
+      token
+    );
   };
   const actionColumn = [
     {
       field: "members",
       headerName: "Members",
       flex: 1,
-      align:'center',
-      headerAlign: 'center',
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         return <div className="cellAction">{params.row.members.length}</div>;
       },
@@ -42,8 +32,8 @@ const Datatable = ({ userRows, setUserRows }) => {
       field: "events",
       headerName: "Events",
       flex: 1,
-      align:'center',
-      headerAlign: 'center',
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         return <div className="cellAction">{params.row.events.length}</div>;
       },
@@ -52,8 +42,8 @@ const Datatable = ({ userRows, setUserRows }) => {
       field: "action",
       headerName: "Action",
       flex: 1,
-      align:'center',
-      headerAlign: 'center',
+      align: "center",
+      headerAlign: "center",
       renderCell: (params) => {
         return (
           <div className="cellAction">
@@ -81,25 +71,24 @@ const Datatable = ({ userRows, setUserRows }) => {
         Societies
         <Link
           to="/societies/new"
-          style={{ textDecoration: "none" }}
-          className="link"
+          className="button"
         >
           Add New
         </Link>
       </div>
       <DataGrid
-      initialState={{
-        pagination: {
-          paginationModel: { page: 0, pageSize: 10 },
-        },
-      }}
-      components={{
-        NoRowsOverlay: () => (
-          <Stack height="100%" alignItems="center" justifyContent="center">
-            No Members Found !!
-          </Stack>
-        )
-      }}
+        initialState={{
+          pagination: {
+            paginationModel: { page: 0, pageSize: 10 },
+          },
+        }}
+        components={{
+          NoRowsOverlay: () => (
+            <Stack height="100%" alignItems="center" justifyContent="center">
+              No Members Found !!
+            </Stack>
+          ),
+        }}
         sx={{
           "&.MuiDataGrid-root .MuiDataGrid-cell:focus-within": {
             outline: "none !important",
@@ -110,7 +99,7 @@ const Datatable = ({ userRows, setUserRows }) => {
         }}
         getRowClassName={(params) => `fade-in-row`}
         showCellVerticalBorder
-        showColumnVerticalBorder 
+        showColumnVerticalBorder
         autoHeight
         rows={userRows}
         columns={userColumns.concat(actionColumn)}

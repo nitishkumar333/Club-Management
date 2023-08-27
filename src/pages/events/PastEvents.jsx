@@ -2,7 +2,9 @@ import { useState, useEffect } from "react";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import { useTransition, animated } from "@react-spring/web";
 import { RotatingLines } from "react-loader-spinner";
-import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
+// import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
+import EventItem from "../../components/eventCard/EventItem.jsx";
+import { getData } from "../../apiFetch.js";
 const PastEvents = () => {
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -12,21 +14,10 @@ const PastEvents = () => {
     trail: 150,
   });
   useEffect(() => {
-    fetch(`http://localhost:8080/all/pastEvents`)
-      .then((result) => {
-        if (result.status !== 200) {
-          throw new Error("Failed to Fetch !!");
-        }
-        return result.json();
-      })
-      .then((result) => {
-        setEventsData(result.events);
-        setIsLoading(false);
-        return result;
-      })
-      .catch((err) => {
-        console.log(err);
-      });
+    getData("http://localhost:8080/all/pastEvents", (result) => {
+      setEventsData(result.events);
+      setIsLoading(false);
+    });
   }, []);
 
   return (
@@ -34,13 +25,19 @@ const PastEvents = () => {
       <Sidebar />
       <div className="listContainer">
         <div className="datatable">
-          <div className="datatableTitle" style={{ marginLeft: "20px" }}>Completed Events</div>
+          <div className="datatableTitle" style={{ paddingLeft: "42px" }}>
+            Completed Events
+          </div>
           {eventsData.length > 0 && (
             <div className="experience" id="experience">
-              <div className="experience-body" style={{"gridAutoRows": "15rem"}}>
+              {/* <div
+                className="experience-body"
+                style={{ gridAutoRows: "15rem" }}
+              > */}
+              <ul className="events-list">
                 {transition((style, event) => (
                   <animated.div style={style}>
-                    <EventCardForPage
+                    <EventItem
                       key={event._id}
                       eventId={event._id}
                       eventname={event.eventname}
@@ -53,7 +50,9 @@ const PastEvents = () => {
                     />
                   </animated.div>
                 ))}
-              </div>
+
+              </ul>
+              {/* </div> */}
             </div>
           )}
         </div>
