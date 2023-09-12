@@ -2,7 +2,7 @@
   flex: 1;
   border-right: 0.5px solid rgb(230, 227, 227);
   min-height: 100vh;
-  background-color: white;
+  background-color: #007bff;
 
   .top {
     height: 50px;
@@ -13,7 +13,7 @@
     .logo {
       font-size: 25px;
       font-weight: bold;
-      color: #007bff;
+      color: white;
       font-family:'Segoe UI', Tahoma, Geneva, Verdana, sans-serif ;
       letter-spacing: 4px;
     }
@@ -34,12 +34,16 @@
 
       .selected{
         background-color: #c1dfff;
+        .icon, span{
+          color: #333;
+          font-weight: bolder;
+        }
       }
 
       .title {
         font-size: 15px;
         font-weight: bold;
-        color: #999;
+        color: rgb(214, 214, 214);
         margin-top: 15px;
         margin-bottom: 5px;
       }
@@ -51,18 +55,22 @@
         cursor: pointer;
 
         &:not(.selected):hover {
-          background-color: #ece8ff;
+          background-color: #c1dfff;
+          .icon, span{
+            color: #333;
+            font-weight: bolder;
+          }
         }
 
         .icon {
           font-size: 23px;
-          color: #007bff;
+          color: #ece8ff;
         }
 
         span{
             font-size: 16px;
             font-weight: 600;
-            color: rgb(113, 113, 113);
+            color: #ece8ff;
             margin-left: 10px;
         }
       }

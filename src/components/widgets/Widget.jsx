@@ -1,8 +1,8 @@
 import "./widget.scss";
 import PersonOutlinedIcon from "@mui/icons-material/PersonOutlined";
-import AccountBalanceWalletOutlinedIcon from "@mui/icons-material/AccountBalanceWalletOutlined";
-import ShoppingCartOutlinedIcon from "@mui/icons-material/ShoppingCartOutlined";
-import MonetizationOnOutlinedIcon from "@mui/icons-material/MonetizationOnOutlined";
+import GroupsIcon from '@mui/icons-material/Groups';
+import GolfCourseIcon from '@mui/icons-material/GolfCourse';
+import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useEffect } from "react";
 import { useState } from "react";
 
@@ -33,7 +33,7 @@ const Widget = ({ type }) => {
         title: "SOCIETIES",
         link: "View all Societies",
         icon: (
-          <ShoppingCartOutlinedIcon
+          <GolfCourseIcon
             className="icon"
             style={{
               backgroundColor: "rgba(218, 165, 32, 0.2)",
@@ -49,7 +49,7 @@ const Widget = ({ type }) => {
         title: "MEMBERS",
         link: "View all Members",
         icon: (
-          <MonetizationOnOutlinedIcon
+          <GroupsIcon
             className="icon"
             style={{ backgroundColor: "rgba(0, 128, 0, 0.2)", color: "green" }}
           />
@@ -62,7 +62,7 @@ const Widget = ({ type }) => {
         title: "EVENTS",
         link: "View all Events",
         icon: (
-          <AccountBalanceWalletOutlinedIcon
+          <EmojiEventsIcon
             className="icon"
             style={{
               backgroundColor: "rgba(128, 0, 128, 0.2)",

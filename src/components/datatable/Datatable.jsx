@@ -77,6 +77,7 @@ const Datatable = ({ userRows, setUserRows }) => {
         </Link>
       </div>
       <DataGrid
+        className="datagrid"
         initialState={{
           pagination: {
             paginationModel: { page: 0, pageSize: 10 },

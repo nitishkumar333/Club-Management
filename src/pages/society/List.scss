@@ -5,6 +5,11 @@
   .listContainer {
     flex: 6;
     max-height: 100vh;
+    overflow-y: scroll;
+    .bottomSpace{
+      width: 100%;
+      margin-bottom: 20px;
+    }
   }
 }
 .loader {

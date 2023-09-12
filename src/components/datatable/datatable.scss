@@ -25,6 +25,18 @@
 .fade-in-row:nth-child(6) {
   animation-delay: 1s;
 }
+.fade-in-row:nth-child(7) {
+  animation-delay: 1.2s;
+}
+.fade-in-row:nth-child(8) {
+  animation-delay: 1.4s;
+}
+.fade-in-row:nth-child(9) {
+  animation-delay: 1.6s;
+}
+.fade-in-row:nth-child(10) {
+  animation-delay: 1.8s;
+}
 @keyframes fadeIn {
   from {
     opacity: 0;
@@ -37,6 +49,9 @@
 }
 .datatable {
   padding: 20px 20px 0px 20px;
+  .datagrid{
+    font-size: 16px;
+  }
   .datatableTitle{
     width: 100%;
     font-size: 24px;

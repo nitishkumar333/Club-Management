@@ -27,7 +27,6 @@ const Chart = ({ aspect, title }) => {
     ["Nov", 0],
     ["Dec", 0],
   ]);
-  console.log("chartRender");
   const [areaData, setAreaData] = useState([]);
   const areaDataFetch = () => {
     fetch("http://localhost:8080/home/all/areagraph")
@@ -83,8 +82,8 @@ const Chart = ({ aspect, title }) => {
           <AreaChart width={730} height={250} data={areaData}>
             <defs>
               <linearGradient id="total" x1="0" y1="0" x2="0" y2="1">
-                <stop offset="5%" stopColor="#8884d8" stopOpacity={0.8} />
-                <stop offset="95%" stopColor="#8884d8" stopOpacity={0} />
+                <stop offset="5%" stopColor="#007bff" stopOpacity={0.8} />
+                <stop offset="95%" stopColor="#007bff" stopOpacity={0} />
               </linearGradient>
             </defs>
             <XAxis dataKey="month" stroke="gray" />
@@ -94,7 +93,7 @@ const Chart = ({ aspect, title }) => {
             <Area
               type="monotone"
               dataKey="num"
-              stroke="#8884d8"
+              stroke="#007bff"
               fillOpacity={1}
               fill="url(#total)"
             />

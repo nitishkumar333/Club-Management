@@ -33,8 +33,8 @@ const Sidebar = () => {
         localStorage.removeItem("userId");
         Swal.fire({
           icon: "success",
-          title: "Deleted!",
-          text: `Logged Out !!`,
+          title: "Logged Out!!",
+          text: `You have been logged out!`,
           showConfirmButton: false,
           timer: 1500,
         });

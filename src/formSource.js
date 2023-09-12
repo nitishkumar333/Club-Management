@@ -3,7 +3,7 @@ export const userInputs = [
       id: 1,
       label: "Society",
       type: "text",
-      placeholder: "Yantrikom",
+      placeholder: "Name",
     },
     {
       id: 2,

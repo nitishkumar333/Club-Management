@@ -49,6 +49,7 @@ const Members = () => {
             />
             <UpcomingEvents />
             <PastEvents />
+            <div className="bottomSpace"></div>
           </>
         )}
       </div>

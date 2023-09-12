@@ -18,8 +18,8 @@ function EventCard(eventData) {
       </div>}
       <div className="experience-details">
         <img src={url} alt="" />
-        <h6>{date}</h6>
-        <h5>{eventname}</h5>
+        {/* <h6>{date}</h6> */}
+        {/* <h5>{eventname}</h5> */}
       </div>
     </div>
   );
