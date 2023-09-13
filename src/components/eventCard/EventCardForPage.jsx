@@ -1,4 +1,5 @@
 import "./eventCardForPage.scss";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 function EventCardForPage(eventData) {
   const {
     eventId,
@@ -9,7 +10,7 @@ function EventCardForPage(eventData) {
     winners,
     isPastEvent,
   } = eventData;
-  const url = `http://localhost:8080/${imageUrl}`;
+  const url = `${BACKEND_URL}/${imageUrl}`;
 
   return (
     <div key={eventId} className="cards-body">

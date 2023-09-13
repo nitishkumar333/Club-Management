@@ -1,9 +1,10 @@
 import DeleteIcon from "@mui/icons-material/Delete";
 import VisibilityIcon from "@mui/icons-material/Visibility";
 import "./eventCard.scss";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 function EventCard(eventData) {
   const { eventId, eventname, date, imageUrl, setEventData, setViewIsActive, isHomepage, eventDeleteHandler } = eventData;
-  const url = `http://localhost:8080/${imageUrl}`;
+  const url = `${BACKEND_URL}/${imageUrl}`;
 
   const viewClickHandler = ()=>{
     setEventData(eventData);

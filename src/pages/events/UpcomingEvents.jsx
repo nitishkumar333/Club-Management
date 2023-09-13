@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { useTransition, animated } from "@react-spring/web";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import { RotatingLines } from "react-loader-spinner";
 // import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
 import EventItem from "../../components/eventCard/EventItem.jsx";
 import { getData } from "../../apiFetch.js";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const UpcomingEvents = () => {
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -13,11 +16,15 @@ const UpcomingEvents = () => {
     enter: { opacity: 1, scale: 1 },
     trail: 150,
   });
+  const ref = useRef(false);
   useEffect(() => {
-    getData("http://localhost:8080/all/upcomingEvents", (result) => {
-      setEventsData(result.events);
-      setIsLoading(false);
-    });
+    if (ref.current === false) {
+      getData(`${BACKEND_URL}/all/upcomingEvents`, (result) => {
+        setEventsData(result.events);
+        setIsLoading(false);
+      });
+      return () => (ref.current = true);
+    }
   }, []);
 
   return (

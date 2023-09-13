@@ -7,7 +7,11 @@ import HomepageEvents from "../../components/events/HomepageEvents.jsx";
 import { useEffect, useState, useRef } from "react";
 import { RotatingLines } from "react-loader-spinner";
 import { useTransition, animated } from "@react-spring/web";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Home = () => {
+  console.log(BACKEND_URL)
   let departmentData = new Map([
     ["CORE", 0],
     ["ME", 0],
@@ -22,7 +26,7 @@ const Home = () => {
   const [isLoading, setIsLoading] = useState(true);
   const ref = useRef(false);
   const barDataFetch = () => {
-    fetch("http://localhost:8080/home/all/bargraph")
+    fetch(`${BACKEND_URL}/home/all/bargraph`)
       .then((res) => {
         if (res.status !== 201) {
           throw new Error("Something went wrong!!");
@@ -32,7 +36,6 @@ const Home = () => {
       .then((res) => {
         res.map((soc) => {
           const department = soc.department.includes("CSE ")? soc.department.replace("CSE ", ""):soc.department;
-          console.log(soc.department);
           departmentData.set(
             department,
             departmentData.get(department) + 1
@@ -56,7 +59,7 @@ const Home = () => {
       });
   };
   const eventsDataFectch = () => {
-    fetch(`http://localhost:8080/all/upcomingEvents`)
+    fetch(`${BACKEND_URL}/all/upcomingEvents`)
       .then((result) => {
         if (result.status !== 200) {
           throw new Error("Failed to Fetch !!");

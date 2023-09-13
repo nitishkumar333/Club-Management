@@ -1,3 +1,5 @@
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export const userColumns = [
   {
     field: "society",
@@ -9,7 +11,7 @@ export const userColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={`http://localhost:8080/${params.row.imageUrl}`}
+            src={`${BACKEND_URL}/${params.row.imageUrl}`}
             alt="avatar"
           />
           {params.row.society}
@@ -34,7 +36,7 @@ export const membersColumns = [
         <div className="cellWithImg">
           <img
             className="cellImg"
-            src={`http://localhost:8080/${params.row.imageUrl}`}
+            src={`${BACKEND_URL}/${params.row.imageUrl}`}
             alt="avatar"
           />
           {params.row.name}

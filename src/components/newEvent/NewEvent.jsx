@@ -4,6 +4,8 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { useNavigate, useParams } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const NewEvent = ({ title }) => {
   const params = useParams();
   const navigate = useNavigate();
@@ -17,7 +19,6 @@ const NewEvent = ({ title }) => {
   const { token } = useAuth();
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(data);
 
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
@@ -26,7 +27,7 @@ const NewEvent = ({ title }) => {
     formData.append("winners[second]", winners.second);
     formData.append("winners[third]", winners.third);
 
-    fetch("http://localhost:8080/newEvent", {
+    fetch(`${BACKEND_URL}/newEvent`, {
       method: "POST",
       body: formData,
       headers: {
@@ -35,11 +36,9 @@ const NewEvent = ({ title }) => {
     })
       .then((result) => {
         if (result.status === 422) throw new Error("Failed to fetch!");
-        console.log("success!");
         return navigate(-1);
       })
       .catch((err) => {
-        console.log("failed to fetch!");
         console.log(err);
       });
   };

@@ -5,6 +5,7 @@ import GolfCourseIcon from '@mui/icons-material/GolfCourse';
 import EmojiEventsIcon from '@mui/icons-material/EmojiEvents';
 import { useEffect } from "react";
 import { useState } from "react";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Widget = ({ type }) => {
   let data;
@@ -26,7 +27,7 @@ const Widget = ({ type }) => {
           />
         ),
       };
-      url = "http://localhost:8080/auth/all/users/count";
+      url = `${BACKEND_URL}/auth/all/users/count`;
       break;
     case "societies":
       data = {
@@ -42,7 +43,7 @@ const Widget = ({ type }) => {
           />
         ),
       };
-      url = "http://localhost:8080/home/all/societies/count";
+      url = `${BACKEND_URL}/home/all/societies/count`;
       break;
     case "members":
       data = {
@@ -55,7 +56,7 @@ const Widget = ({ type }) => {
           />
         ),
       };
-      url = "http://localhost:8080/all/members/count";
+      url = `${BACKEND_URL}/all/members/count`;
       break;
     case "events":
       data = {
@@ -71,7 +72,7 @@ const Widget = ({ type }) => {
           />
         ),
       };
-      url = "http://localhost:8080/all/events/count";
+      url = `${BACKEND_URL}/all/events/count`;
       break;
     default:
       break;

@@ -7,6 +7,8 @@ import UpcomingEvents from "../../components/events/UpcomingEvents.jsx";
 import PastEvents from "../../components/events/PastEvents.jsx";
 import { RotatingLines } from "react-loader-spinner";
 import { getDataPrivate } from "../../apiFetch.js";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Members = () => {
   const params = useParams();
   const { token } = useAuth();
@@ -14,7 +16,7 @@ const Members = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [societyName, setSocietyName] = useState("");
   useEffect(() => {
-    getDataPrivate(`http://localhost:8080/societies/${params.societyId}`, (result) => {
+    getDataPrivate(`${BACKEND_URL}/societies/${params.societyId}`, (result) => {
       const usersArray = result.members.map((user) => {
         const temp = user;
         temp.id = temp._id;

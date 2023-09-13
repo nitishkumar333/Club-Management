@@ -5,6 +5,7 @@ import EventCard from "../eventCard/EventCard.jsx";
 import EventViewCard from "../eventViewCard/EventViewCard.jsx";
 import { useNavigate } from "react-router-dom";
 import { deleteHandlerPrivate } from "../../apiFetch.js";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const UpcomingEvents = () => {
   const [viewIsActive, setViewIsActive] = useState(false);
   const [eventData, setEventData] = useState();
@@ -14,7 +15,7 @@ const UpcomingEvents = () => {
   const navigate = useNavigate();
 
   useEffect(() => {
-    fetch(`http://localhost:8080/events/upcomingEvents/${params.societyId}`, {
+    fetch(`${BACKEND_URL}/events/upcomingEvents/${params.societyId}`, {
       headers: {
         Authorization: "Bearer " + token,
       },
@@ -35,13 +36,12 @@ const UpcomingEvents = () => {
   }, []);
 
   const submitHandler = (data, winners) => {
-    console.log("submit data --> ", data);
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
     formData.append("winners[first]", winners.first);
     formData.append("winners[second]", winners.second);
     formData.append("winners[third]", winners.third);
-    fetch(`http://localhost:8080/events/${eventData.eventId}`, {
+    fetch(`${BACKEND_URL}/events/${eventData.eventId}`, {
       method: "PUT",
       body: formData,
       headers: {
@@ -51,18 +51,15 @@ const UpcomingEvents = () => {
       .then((result) => {
         if (result.status === 500 || result.status === 402)
           throw new Error("Failed to fetch!");
-        console.log("success!");
-        console.log(result);
         return navigate(0);
       })
       .catch((err) => {
-        console.log("failed to fetch!");
         console.log(err);
       });
   };
 
   const eventDeleteHandler = (eventId) => {
-    const api = `http://localhost:8080/events/${params.societyId}/${eventId}`;
+    const api = `${BACKEND_URL}/events/${params.societyId}/${eventId}`;
     deleteHandlerPrivate(
       api,
       () => {

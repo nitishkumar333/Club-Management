@@ -5,10 +5,11 @@ import { Link } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 import { Stack } from "@mui/material";
 import { deleteHandlerPrivate } from "../../apiFetch.js";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const Datatable = ({ userRows, setUserRows }) => {
   const { token } = useAuth();
   const handleDelete = (id) => {
-    const api = `http://localhost:8080/home/society/${id}`;
+    const api = `${BACKEND_URL}/home/society/${id}`;
     deleteHandlerPrivate(
       api,
       () => {

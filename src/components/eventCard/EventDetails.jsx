@@ -5,6 +5,8 @@ import { getData } from "../../apiFetch.js";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 export default function EventDetails() {
   const params = useParams();
   const [eventData, setEventData] = useState();
@@ -15,8 +17,7 @@ export default function EventDetails() {
     year: "numeric",
   });
   useEffect(() => {
-    getData(`http://localhost:8080/events/${params.eventID}`, (event) => {
-      console.log(event);
+    getData(`${BACKEND_URL}/events/${params.eventID}`, (event) => {
       setEventData(event);
       setIsLoading(false);
     });
@@ -42,7 +43,7 @@ export default function EventDetails() {
               {eventData?.type === "COMPLETED" && (
                 <nav>
                   <a
-                    href={`http://localhost:8080/${eventData.reportUrl}`}
+                    href={`${BACKEND_URL}/${eventData.reportUrl}`}
                     className="button"
                     target="_blank"
                     rel="noreferrer"
@@ -54,7 +55,7 @@ export default function EventDetails() {
             </header>
             <div id="event-details-content">
               <img
-                src={`http://localhost:8080/${eventData.imageUrl}`}
+                src={`${BACKEND_URL}/${eventData.imageUrl}`}
                 alt={eventData.eventname}
               />
               <div id="event-details-info">

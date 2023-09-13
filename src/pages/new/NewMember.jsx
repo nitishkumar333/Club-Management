@@ -4,6 +4,9 @@ import { useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const New = ({ inputs, title }) => {
   const params = useParams();
   const navigate = useNavigate();
@@ -14,11 +17,10 @@ const New = ({ inputs, title }) => {
   const { token } = useAuth();
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(data);
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
     formData.append("societyId", params.societyId);
-    fetch("http://localhost:8080/member", {
+    fetch(`${BACKEND_URL}/member`, {
       method: "POST",
       body: formData,
       headers: {
@@ -27,11 +29,9 @@ const New = ({ inputs, title }) => {
     })
       .then((result) => {
         if(result.status !== 201) throw new Error("Failed to fetch!");
-        console.log("success!");
         return navigate(-1);
       })
       .catch((err) => {
-        console.log("failed to fetch!");
         console.log(err);
       });
   };

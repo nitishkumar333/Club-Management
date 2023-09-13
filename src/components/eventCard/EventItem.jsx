@@ -1,5 +1,8 @@
 import { Link } from 'react-router-dom';
-import "./eventItem.scss"
+import "./eventItem.scss";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const EventItem = (event)=> {
   const formattedDate = new Date(event.date).toLocaleDateString('en-US', {
     day: 'numeric',
@@ -9,7 +12,7 @@ const EventItem = (event)=> {
   return (
     <article className="event-item">
         <div className='imageDiv'>
-            <img src={`http://localhost:8080/${event.imageUrl}`} alt={event.eventname} />
+            <img src={`${BACKEND_URL}/${event.imageUrl}`} alt={event.eventname} />
         </div>
       <div className="event-item-content">
         <div>

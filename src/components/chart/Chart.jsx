@@ -12,6 +12,8 @@ import { useEffect, useRef } from "react";
 import { useState } from "react";
 import { RotatingLines } from "react-loader-spinner";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Chart = ({ aspect, title }) => {
   let monthData = new Map([
     ["Jan", 0],
@@ -29,7 +31,7 @@ const Chart = ({ aspect, title }) => {
   ]);
   const [areaData, setAreaData] = useState([]);
   const areaDataFetch = () => {
-    fetch("http://localhost:8080/home/all/areagraph")
+    fetch(`${BACKEND_URL}/home/all/areagraph`)
       .then((res) => {
         if (res.status !== 201) {
           throw new Error("Something went wrong!!");

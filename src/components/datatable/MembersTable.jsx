@@ -7,6 +7,7 @@ import { useAuth } from "../../context/authContext.js";
 import { useState } from "react";
 import SingleEditForm from "../../pages/single/SingleEditForm.jsx";
 import { deleteHandlerPrivate } from "../../apiFetch.js";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const MembersTable = ({ userRows, setUserRows, name }) => {
   const [viewIsActive, setViewIsActive] = useState(false);
   const [memData, setMemData] = useState();
@@ -14,7 +15,7 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
   const navigate = useNavigate();
   const { token } = useAuth();
   const handleDelete = (memId) => {
-    const api = `http://localhost:8080/societies/${params.societyId}/${memId}`;
+    const api = `${BACKEND_URL}/societies/${params.societyId}/${memId}`;
     deleteHandlerPrivate(
       api,
       () => {
@@ -30,7 +31,7 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
   const submitHandler = (data) => {
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
-    fetch(`http://localhost:8080/members/${memData.id}`, {
+    fetch(`${BACKEND_URL}/members/${memData.id}`, {
       method: "PUT",
       body: formData,
       headers: {
@@ -40,12 +41,9 @@ const MembersTable = ({ userRows, setUserRows, name }) => {
       .then((result) => {
         if (result.status === 500 || result.status === 402)
           throw new Error("Failed to fetch!");
-        console.log("success!");
-        console.log(result);
         return navigate(0);
       })
       .catch((err) => {
-        console.log("failed to fetch!");
         console.log(err);
       });
   };

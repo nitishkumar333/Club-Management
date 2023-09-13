@@ -1,7 +1,6 @@
 import Swal from "sweetalert2";
 
 export const getData = (api, cb) => {
-  console.log(api);
   fetch(api)
     .then((response) => {
       if (!response.ok) {
@@ -18,7 +17,6 @@ export const getData = (api, cb) => {
 };
 
 export const getDataPrivate = (api, cb, token) => {
-  console.log(api);
   fetch(api, {
     headers: {
       Authorization: "Bearer " + token,

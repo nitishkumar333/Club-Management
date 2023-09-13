@@ -4,16 +4,18 @@ import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUpload
 import { useState } from "react";
 import { useAuth } from "../../context/authContext.js";
 import { useNavigate } from "react-router-dom";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const New = ({ inputs, title }) => {
   const [data, setFormData] = useState({department:'CSE CORE'});
   const { token } = useAuth();
   const navigate = useNavigate();
   const submitHandler = (e) => {
     e.preventDefault();
-    console.log(data);
     const formData = new FormData();
     Object.keys(data).forEach((key) => formData.append(key, data[key]));
-    fetch("http://localhost:8080/home/society", {
+    fetch(`${BACKEND_URL}/home/society`, {
       method: "POST",
       body: formData,
       headers: {
@@ -22,11 +24,9 @@ const New = ({ inputs, title }) => {
     })
       .then((result) => {
         if(result.status === 500) throw new Error("Failed to fetch!");
-        console.log(result);
         return navigate('/societies');
       })
       .catch((err) => {
-        console.log("Failed to fetch!");
         console.log(err);
       });
   };

@@ -1,9 +1,10 @@
 import { useState } from "react";
 import "./singleEditForm.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const SingleEditForm = ({ data, setViewIsActive, submitHandler }) => {
-  console.log("datatdatd" + data);
+  
   const [profileData, setProfileData] = useState({
     file: data.imageUrl,
     name: data.name,
@@ -13,7 +14,7 @@ const SingleEditForm = ({ data, setViewIsActive, submitHandler }) => {
     position: data.position,
   });
   const [imageChanged, setImageChanged] = useState(false);
-  console.log(profileData);
+
   const handleChange = (e) => {
     const { name, value } = e.target;
     setProfileData((prevState) => ({
@@ -35,7 +36,7 @@ const SingleEditForm = ({ data, setViewIsActive, submitHandler }) => {
               src={
                 imageChanged
                   ? URL.createObjectURL(profileData.file)
-                  : `http://localhost:8080/${data.imageUrl}`
+                  : `${BACKEND_URL}/${data.imageUrl}`
               }
               alt="Profile Preview"
               className="profile-image-preview"

@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Swal from "sweetalert2";
 
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Login = () => {
   const navigate = useNavigate();
   const [signUpData, setSignUpData] = useState({
@@ -13,7 +15,6 @@ const Login = () => {
     name: "",
   });
   const { userId, token, isAuth, dispatchAuth } = useAuth();
-  console.log(userId, token, isAuth);
 
   const [signInData, setSignInData] = useState({ email: "", password: "" });
   const [isSignUp, setIsSignUp] = useState(isAuth);
@@ -28,7 +29,7 @@ const Login = () => {
   };
   const handleSignInSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/auth/login", {
+    fetch(`${BACKEND_URL}/auth/login`, {
       method: "POST",
       headers: {
         "Content-type": "application/json",
@@ -40,7 +41,6 @@ const Login = () => {
       }),
     })
       .then((res) => {
-        console.log(res)
         if (res.status === 422) {
           throw new Error("Validation failed.");
         }
@@ -51,7 +51,6 @@ const Login = () => {
         return res.json();
       })
       .then((resData) => {
-        console.log(resData);
         dispatchAuth({
           type: "LOGIN",
           token: resData.token,
@@ -75,7 +74,7 @@ const Login = () => {
 
   const handleSignUpSubmit = (e) => {
     e.preventDefault();
-    fetch("http://localhost:8080/auth/signup", {
+    fetch(`${BACKEND_URL}/auth/signup`, {
       method: "PUT",
       headers: {
         "Content-type": "application/json",

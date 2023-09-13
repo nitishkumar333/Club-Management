@@ -1,10 +1,9 @@
 import { useState } from "react";
 import "./eventViewCard.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 const EventViewCard = ({ data, setViewIsActive, submitHandler }) => {
-  console.log("event daat--->" + data);
-  const reportUrl = `http://localhost:8080/${data.reportUrl}`;
+  const reportUrl = `${BACKEND_URL}/${data.reportUrl}`;
   const [eventData, setEventData] = useState({
     file: data.imageUrl,
     report: data.reportUrl,
@@ -22,7 +21,6 @@ const EventViewCard = ({ data, setViewIsActive, submitHandler }) => {
   const [isUpcoming, setIsUpcoming] = useState(
     eventData.type === "COMPLETED" ? false : true
   );
-  console.log(isUpcoming);
   const [imageChanged, setImageChanged] = useState(false);
   const handleChange = (e) => {
     if (e.target.name === "type") {
@@ -53,7 +51,7 @@ const EventViewCard = ({ data, setViewIsActive, submitHandler }) => {
                   src={
                     imageChanged
                       ? URL.createObjectURL(eventData.file)
-                      : `http://localhost:8080/${data.imageUrl}`
+                      : `${BACKEND_URL}/${data.imageUrl}`
                   }
                   alt="Profile Preview"
                   className="profile-image-preview"

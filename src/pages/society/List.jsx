@@ -6,6 +6,8 @@ import { useAuth } from "../../context/authContext.js";
 import { RotatingLines } from "react-loader-spinner";
 import { getDataPrivate } from "../../apiFetch.js";
 import { useNavigate } from "react-router-dom";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const List = () => {
   const [userRows, setUserRows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -15,8 +17,7 @@ const List = () => {
     if(!isAuth){
       return navigate("/login");
     }
-    getDataPrivate("http://localhost:8080/home/societies", (res) => {
-      console.log(res);
+    getDataPrivate(`${BACKEND_URL}/home/societies`, (res) => {
       const usersArray = res.societies.map((user) => {
         const temp = user;
         temp.id = temp._id;

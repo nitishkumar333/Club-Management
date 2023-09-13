@@ -1,10 +1,13 @@
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import { useTransition, animated } from "@react-spring/web";
 import { RotatingLines } from "react-loader-spinner";
 // import EventCardForPage from "../../components/eventCard/EventCardForPage.jsx";
 import EventItem from "../../components/eventCard/EventItem.jsx";
 import { getData } from "../../apiFetch.js";
+
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const PastEvents = () => {
   const [eventsData, setEventsData] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
@@ -13,11 +16,15 @@ const PastEvents = () => {
     enter: { opacity: 1, scale: 1 },
     trail: 150,
   });
+  const ref = useRef(false);
   useEffect(() => {
-    getData("http://localhost:8080/all/pastEvents", (result) => {
-      setEventsData(result.events);
-      setIsLoading(false);
-    });
+    if (ref.current === false) {
+      getData(`${BACKEND_URL}/all/pastEvents`, (result) => {
+        setEventsData(result.events);
+        setIsLoading(false);
+      });
+      return () => (ref.current = true);
+    }
   }, []);
 
   return (
@@ -28,7 +35,7 @@ const PastEvents = () => {
           <div className="datatableTitle" style={{ paddingLeft: "42px" }}>
             Completed Events
           </div>
-          {eventsData.length > 0 && (
+          {eventsData.length > 0 && !isLoading && (
             <div className="experience" id="experience">
               {/* <div
                 className="experience-body"

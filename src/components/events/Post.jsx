@@ -1,4 +1,6 @@
 import "./Post.scss";
+const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+
 const Post = ({
   eventname,
   description,
@@ -8,7 +10,7 @@ const Post = ({
   winners,
   type,
 }) => {
-  const image = "http://localhost:8080/" + imageUrl;
+  const image = `${BACKEND_URL}` + imageUrl;
   return (
     <div className="card">
       <div className="card-image">
