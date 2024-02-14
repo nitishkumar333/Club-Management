@@ -1,6 +1,6 @@
 import "./new.scss";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { useParams, useNavigate } from "react-router-dom";
 import { useAuth } from "../../context/authContext.js";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
@@ -14,7 +14,12 @@ const New = ({ inputs, title }) => {
     department: "CSE CORE",
     position: "Faculty",
   });
-  const { token } = useAuth();
+  const { token, isAuth } = useAuth();
+  useEffect(() => {
+    if(!isAuth){
+      return navigate("/login");
+    }
+  })
   const submitHandler = (e) => {
     e.preventDefault();
     const formData = new FormData();

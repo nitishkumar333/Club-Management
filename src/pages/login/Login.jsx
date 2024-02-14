@@ -4,6 +4,7 @@ import { useAuth } from "../../context/authContext.js";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
 import Swal from "sweetalert2";
+import rkgitlogo from "../../style/rkgitlogo.jpg";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
@@ -115,6 +116,7 @@ const Login = () => {
       <Sidebar />
       <div className="listContainer">
         <div className="sign-in-sign-up-container">
+          <img src={rkgitlogo} alt="logo" />
           {!isSignUp && (
             <div className="sign-in">
               <h2>Sign In</h2>

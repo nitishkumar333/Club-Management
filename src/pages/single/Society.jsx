@@ -7,15 +7,21 @@ import UpcomingEvents from "../../components/events/UpcomingEvents.jsx";
 import PastEvents from "../../components/events/PastEvents.jsx";
 import { RotatingLines } from "react-loader-spinner";
 import { getDataPrivate } from "../../apiFetch.js";
+import { useNavigate } from "react-router-dom";
+
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Members = () => {
   const params = useParams();
-  const { token } = useAuth();
+  const { token, isAuth } = useAuth();
   const [userRows, setUserRows] = useState([]);
   const [isLoading, setIsLoading] = useState(true);
   const [societyName, setSocietyName] = useState("");
+  const navigate = useNavigate();
   useEffect(() => {
+    if(!isAuth){
+      return navigate("/login");
+    }
     getDataPrivate(`${BACKEND_URL}/societies/${params.societyId}`, (result) => {
       const usersArray = result.members.map((user) => {
         const temp = user;

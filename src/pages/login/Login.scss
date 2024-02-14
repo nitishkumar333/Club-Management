@@ -1,8 +1,12 @@
 .sign-in-sign-up-container {
   display: flex;
+  flex-direction: column;
   justify-content: center;
   align-items: center;
   height: 80%;
+  img {
+    width: 150px;
+  }
   h2 {
     margin-top: 0;
     margin-bottom: 20px;

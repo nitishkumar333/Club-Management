@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Sidebar from "../sidebar/Sidebar.jsx";
 import DriveFolderUploadOutlinedIcon from "@mui/icons-material/DriveFolderUploadOutlined";
 import { useNavigate, useParams } from "react-router-dom";
@@ -16,7 +16,14 @@ const NewEvent = ({ title }) => {
   });
   const [isUpcoming, setIsUpcoming] = useState(true);
   const [winners, setWinners] = useState({});
-  const { token } = useAuth();
+  const { token, isAuth } = useAuth();
+
+  useEffect(() => {
+    if(!isAuth){
+      return navigate("/login");
+    }
+  })
+
   const submitHandler = (e) => {
     e.preventDefault();
 

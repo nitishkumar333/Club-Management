@@ -5,15 +5,20 @@ import { useParams } from "react-router-dom";
 import { useEffect, useState } from "react";
 import SingleEditForm from "./SingleEditForm.jsx";
 import { useAuth } from "../../context/authContext.js";
+import { useNavigate } from "react-router-dom";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
 
 const Single = () => {
   const params = useParams();
-  const { token } = useAuth();
+  const { token, isAuth } = useAuth();
   const [data, setData] = useState();
   const [fetched, setFetched] = useState(false);
+  const navigate = useNavigate();
   useEffect(() => {
+    if(!isAuth){
+      return navigate("/login");
+    }
     fetch(`${BACKEND_URL}/members/${params.memId}`, {
       headers: {
         Authorization: "Bearer " + token,
