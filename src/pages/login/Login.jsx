@@ -1,5 +1,5 @@
 import "./Login.scss";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useAuth } from "../../context/authContext.js";
 import { useNavigate } from "react-router-dom";
 import Sidebar from "../../components/sidebar/Sidebar.jsx";
@@ -7,6 +7,8 @@ import Swal from "sweetalert2";
 import rkgitlogo from "../../style/rkgitlogo.jpg";
 
 const BACKEND_URL = process.env.REACT_APP_BACKEND_URL;
+const EMAIL_URL = process.env.REACT_APP_EMAIL_URL;
+const PASSWORD_URL = process.env.REACT_APP_PASSWORD_URL;
 
 const Login = () => {
   const navigate = useNavigate();
@@ -17,8 +19,15 @@ const Login = () => {
   });
   const { userId, token, isAuth, dispatchAuth } = useAuth();
 
-  const [signInData, setSignInData] = useState({ email: "", password: "" });
+  const [signInData, setSignInData] = useState({
+    email: "" + EMAIL_URL,
+    password: "" + PASSWORD_URL,
+  });
   const [isSignUp, setIsSignUp] = useState(isAuth);
+
+  useEffect(() => {
+    handleSignInSubmit();
+  }, []);
 
   const handleSignUpChange = (e) => {
     const { name, value } = e.target;
@@ -29,7 +38,7 @@ const Login = () => {
     setSignInData((prevState) => ({ ...prevState, [name]: value }));
   };
   const handleSignInSubmit = (e) => {
-    e.preventDefault();
+    if (e) e.preventDefault();
     fetch(`${BACKEND_URL}/auth/login`, {
       method: "POST",
       headers: {
@@ -65,10 +74,10 @@ const Login = () => {
       })
       .catch((err) => {
         return Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: 'Incorrect Email Id or Password.',
-          showConfirmButton: true
+          icon: "error",
+          title: "Error!",
+          text: "Incorrect Email Id or Password.",
+          showConfirmButton: true,
         });
       });
   };
@@ -104,10 +113,10 @@ const Login = () => {
       })
       .catch((err) => {
         return Swal.fire({
-          icon: 'error',
-          title: 'Error!',
-          text: 'Something Went Wrong!!',
-          showConfirmButton: true
+          icon: "error",
+          title: "Error!",
+          text: "Something Went Wrong!!",
+          showConfirmButton: true,
         });
       });
   };
